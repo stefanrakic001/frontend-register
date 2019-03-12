@@ -12,9 +12,9 @@ export default props => (
           flex: 1
         }}
       >
-        Nyilvántartás
+        Register
       </Typography>
-      <CreateButton />
+      <CreateButton submitHandler={props.addToNavBar} />
     </Toolbar>
   </AppBar>
 );
