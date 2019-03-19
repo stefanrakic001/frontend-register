@@ -1,14 +1,16 @@
 import React, { Component, Fragment } from "react";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { Button, Dialog } from "@material-ui/core";
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogActions,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+  Select,
+  InputLabel
+} from "@material-ui/core";
 import { Add } from "@material-ui/icons";
-import TextField from "@material-ui/core/TextField";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import Divider from "@material-ui/core/Divider";
 
 export default class extends Component {
   state = {
