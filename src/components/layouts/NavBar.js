@@ -14,7 +14,7 @@ export default props => (
       >
         Register
       </Typography>
-      <CreateButton submitHandler={props.addToNavBar} />
+      <CreateButton onSubmit={props.addToNavBar} />
     </Toolbar>
   </AppBar>
 );

@@ -8,14 +8,14 @@ class App extends Component {
     rows: []
   };
 
-  addToList = (name, status, car) => {
+  addToList = personInfo => {
     const row = (
-      <TableRow key={name}>
+      <TableRow key={personInfo.name}>
         <TableCell component="th" scope="row">
-          {name}
+          {personInfo.name}
         </TableCell>
-        <TableCell align="right">{status}</TableCell>
-        <TableCell align="right">{car}</TableCell>
+        <TableCell align="right">{personInfo.status}</TableCell>
+        <TableCell align="right">{personInfo.car}</TableCell>
         <TableCell align="right">{}</TableCell>
         <TableCell align="right">{}</TableCell>
         <TableCell align="right">{}</TableCell>
