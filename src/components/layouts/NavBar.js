@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
+import React from "react";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import CreateButton from "../layouts/CreateButton";
 
 export default props => (

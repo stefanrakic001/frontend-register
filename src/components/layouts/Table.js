@@ -31,6 +31,7 @@ function SimpleTable(props) {
           <TableRow>
             <TableCell>Name </TableCell>
             <TableCell align="right">Status</TableCell>
+            <TableCell align="right">Car </TableCell>
             <TableCell align="right">Construction Address </TableCell>
             <TableCell align="right">Location</TableCell>
             <TableCell align="right">Payment</TableCell>
