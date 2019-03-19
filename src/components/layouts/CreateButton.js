@@ -133,7 +133,7 @@ export default withStyles(styles)(
               <Button
                 color="primary"
                 variant="raised"
-                onClick={() => this.submitHandler(name, status, car)}
+                onClick={this.submitHandler}
               >
                 Create
               </Button>
