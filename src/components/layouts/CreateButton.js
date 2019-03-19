@@ -9,7 +9,8 @@ import {
   TextField,
   Select,
   InputLabel,
-  withStyles
+  withStyles,
+  Tooltip
 } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 
@@ -71,14 +72,16 @@ export default withStyles(styles)(
 
       return (
         <Fragment>
-          <Button
-            variant="fab"
-            color="extended"
-            onClick={this.handleToggle}
-            mini
-          >
-            <Add />
-          </Button>
+          <Tooltip title="Add" placement="left">
+            <Button
+              variant="fab"
+              color="extended"
+              onClick={this.handleToggle}
+              mini
+            >
+              <Add />
+            </Button>
+          </Tooltip>
           <Dialog open={open} onClose={this.handleToggle}>
             <DialogTitle id="form-dialog-title">Create new</DialogTitle>
             <DialogContent>

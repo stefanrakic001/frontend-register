@@ -1,8 +1,16 @@
 import React, { Component, Fragment } from "react";
 import NavBar from "./components/layouts/NavBar";
 import Table from "./components/layouts/Table";
-import { TableCell, TableRow, IconButton } from "@material-ui/core";
+import {
+  TableCell,
+  TableRow,
+  IconButton,
+  Tooltip,
+  Link
+} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Check from "@material-ui/icons/Check";
+import Close from "@material-ui/icons/Close";
 
 class App extends Component {
   state = {
@@ -14,24 +22,33 @@ class App extends Component {
   };
 
   addToList = personInfo => {
+    const available = <Check />;
+    const notAvailable = <Close />;
+
     const row = (
       <TableRow key={personInfo.name}>
         <TableCell component="th" scope="row">
-          {personInfo.name}
+          <Link component="button" variant="body2" color="primary">
+            {personInfo.name}
+          </Link>
         </TableCell>
-        <TableCell align="right">{personInfo.status}</TableCell>
+        <TableCell align="right">
+          {personInfo.status === "Available" ? available : notAvailable}
+        </TableCell>
         <TableCell align="right">{personInfo.car}</TableCell>
         <TableCell align="right">{}</TableCell>
         <TableCell align="right">{}</TableCell>
         <TableCell align="right">{}</TableCell>
         <TableCell>
-          <IconButton
-            onClick={() => this.onDelete(personInfo.name)}
-            aria-label="Delete"
-            color="secondary"
-          >
-            <DeleteIcon fontSize="small" />
-          </IconButton>
+          <Tooltip title="Delete" placement="left">
+            <IconButton
+              onClick={() => this.onDelete(personInfo.name)}
+              aria-label="Delete"
+              color="secondary"
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
         </TableCell>
       </TableRow>
     );
