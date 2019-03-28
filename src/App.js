@@ -37,7 +37,7 @@ class App extends Component {
         </TableCell>
         <TableCell align="right">{personInfo.car}</TableCell>
         <TableCell align="right">{personInfo.address}</TableCell>
-        <TableCell align="right">{}</TableCell>
+        <TableCell align="right">{personInfo.location}</TableCell>
         <TableCell align="right">{}</TableCell>
         <TableCell>
           <Tooltip title="Delete" placement="left">

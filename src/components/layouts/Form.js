@@ -55,13 +55,13 @@ export default withStyles(styles)(
       this.props.onSubmit(personInfo);
       this.setState({
         open: false,
-        personInfo: { name: "", status: "", car: "", address: "" }
+        personInfo: { name: "", status: "", car: "", address: "", location: "" }
       });
     };
     render() {
       const {
         open,
-        personInfo: { name, status, car, address }
+        personInfo: { name, status, car, address, location }
       } = this.state;
       const { classes } = this.props;
 
@@ -119,6 +119,13 @@ export default withStyles(styles)(
                   label="Construction Address"
                   value={address}
                   onChange={this.handleChange("address")}
+                  margin="normal"
+                  variant="outlined"
+                />
+                <TextField
+                  label="Location"
+                  value={location}
+                  onChange={this.handleChange("location")}
                   margin="normal"
                   variant="outlined"
                 />
