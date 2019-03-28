@@ -18,10 +18,6 @@ const styles = theme => ({
   container: {
     display: "flex",
     flexWrap: "wrap"
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
   }
 });
 
@@ -33,8 +29,8 @@ export default withStyles(styles)(
         name: "",
         status: "",
         car: "",
-        location: "",
         address: "",
+        location: "",
         payment: ""
       }
     };
@@ -59,13 +55,13 @@ export default withStyles(styles)(
       this.props.onSubmit(personInfo);
       this.setState({
         open: false,
-        personInfo: { name: "", status: "", car: "" }
+        personInfo: { name: "", status: "", car: "", address: "" }
       });
     };
     render() {
       const {
         open,
-        personInfo: { name, status, car }
+        personInfo: { name, status, car, address }
       } = this.state;
       const { classes } = this.props;
 
@@ -92,38 +88,40 @@ export default withStyles(styles)(
                   onChange={this.handleChange("name")}
                   margin="normal"
                   variant="outlined"
-                  className={classes.textField}
                 />
 
-                <div className={classes.textField}>
-                  <InputLabel htmlFor="age-native-simple">Status</InputLabel>
-                  <Select
-                    native
-                    value={status}
-                    onChange={this.handleChange("status")}
-                  >
-                    <option value="" />
-                    <option value={"Available"}> Available</option>
-                    <option value={"Not available"}> Not available</option>
-                  </Select>
-                </div>
+                <InputLabel htmlFor="age-native-simple">Status</InputLabel>
+                <Select
+                  native
+                  value={status}
+                  onChange={this.handleChange("status")}
+                >
+                  <option value="" />
+                  <option value={"Available"}> Available</option>
+                  <option value={"Not available"}> Not available</option>
+                </Select>
 
-                <div className={classes.textField}>
-                  <InputLabel htmlFor="age-native-simple">Car</InputLabel>
-                  <Select
-                    native
-                    value={car}
-                    onChange={this.handleChange("car")}
-                    inputProps={{
-                      name: "car",
-                      id: "age-native-simple"
-                    }}
-                  >
-                    <option value="" />
-                    <option value={"XML-333"}> XML-333</option>
-                    <option value={"RTE-343"}>RTE-343</option>
-                  </Select>
-                </div>
+                <InputLabel htmlFor="age-native-simple">Car</InputLabel>
+                <Select
+                  native
+                  value={car}
+                  onChange={this.handleChange("car")}
+                  inputProps={{
+                    name: "car",
+                    id: "age-native-simple"
+                  }}
+                >
+                  <option value="" />
+                  <option value={"XML-333"}> XML-333</option>
+                  <option value={"RTE-343"}>RTE-343</option>
+                </Select>
+                <TextField
+                  label="Construction Address"
+                  value={address}
+                  onChange={this.handleChange("address")}
+                  margin="normal"
+                  variant="outlined"
+                />
               </form>
             </DialogContent>
             <DialogActions>

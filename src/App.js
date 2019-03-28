@@ -36,7 +36,7 @@ class App extends Component {
           {personInfo.status === "Available" ? available : notAvailable}
         </TableCell>
         <TableCell align="right">{personInfo.car}</TableCell>
-        <TableCell align="right">{}</TableCell>
+        <TableCell align="right">{personInfo.address}</TableCell>
         <TableCell align="right">{}</TableCell>
         <TableCell align="right">{}</TableCell>
         <TableCell>
