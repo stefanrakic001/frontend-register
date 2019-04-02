@@ -9,17 +9,25 @@ import {
   Link
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import Check from "@material-ui/icons/Check";
 import Close from "@material-ui/icons/Close";
 
 class App extends Component {
   state = {
-    rows: []
+    rows: [],
+    editmode: false
   };
 
   onDelete = id => {
     this.setState({ rows: this.state.rows.filter(row => row.key !== id) });
   };
+
+  handleEdit = (id, car) =>
+    this.setState({
+      rows: this.state.rows.filter(row => row.key !== id),
+      editmode: true
+    });
 
   addToList = personInfo => {
     const available = <Check />;
@@ -40,6 +48,18 @@ class App extends Component {
         <TableCell align="right">{personInfo.location}</TableCell>
         <TableCell align="right">{}</TableCell>
         <TableCell>
+          <Tooltip title="Edit" placement="left">
+            <IconButton
+              aria-label="Edit"
+              onClick={() => {
+                this.handleEdit(personInfo.name, personInfo.car);
+              }}
+            >
+              <EditIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </TableCell>
+        <TableCell>
           <Tooltip title="Delete" placement="left">
             <IconButton
               onClick={() => this.onDelete(personInfo.name)}
@@ -52,14 +72,14 @@ class App extends Component {
         </TableCell>
       </TableRow>
     );
-    console.log(row);
     this.setState({ rows: this.state.rows.concat(row) });
   };
 
   render() {
+    const { editmode } = this.state;
     return (
       <Fragment>
-        <NavBar addToNavBar={this.addToList} />
+        <NavBar addToNavBar={this.addToList} editmode={editmode} />
         <Table rows={this.state.rows} />
       </Fragment>
     );
