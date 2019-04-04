@@ -28,6 +28,10 @@ export default withStyles(styles)(
       }
     };
 
+    getInitialState() {
+      const { personInfo } = this.props;
+    }
+
     handleChange = name => ({ target: { value } }) => {
       this.setState({
         personInfo: {
@@ -50,7 +54,7 @@ export default withStyles(styles)(
       const {
         personInfo: { name, status, car, address, location }
       } = this.state;
-      const { classes, editmode, onSubmit } = this.props;
+      const { classes, onSubmit } = this.props;
 
       return (
         <form className={classes.container}>

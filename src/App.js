@@ -1,86 +1,65 @@
 import React, { Component, Fragment } from "react";
 import NavBar from "./components/layouts/NavBar";
 import Table from "./components/layouts/Table";
-import {
-  TableCell,
-  TableRow,
-  IconButton,
-  Tooltip,
-  Link
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import Check from "@material-ui/icons/Check";
-import Close from "@material-ui/icons/Close";
+import Row from "./components/layouts/Row";
 
 class App extends Component {
-  state = {
-    rows: [],
-    editmode: false
-  };
+  constructor(props) {
+    super(props);
+    this.onDelete = this.onDelete.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.state = {
+      rows: new Map()
+    };
+  }
 
   onDelete = id => {
-    this.setState({ rows: this.state.rows.filter(row => row.key !== id) });
+    let rows = this.state.rows;
+    rows.delete(id);
+    console.log(rows);
+    this.setState({
+      rows: rows
+    });
   };
 
   handleEdit = (id, car) =>
     this.setState({
-      rows: this.state.rows.filter(row => row.key !== id),
-      editmode: true
+      rows: this.state.rows.filter(row => row.key !== id)
     });
 
   addToList = personInfo => {
-    const available = <Check />;
-    const notAvailable = <Close />;
-
+    const rowsLenght = this.state.rows.size;
     const row = (
-      <TableRow key={personInfo.name}>
-        <TableCell component="th" scope="row">
-          <Link component="button" variant="body2" color="primary">
-            {personInfo.name}
-          </Link>
-        </TableCell>
-        <TableCell align="right">
-          {personInfo.status === "Available" ? available : notAvailable}
-        </TableCell>
-        <TableCell align="right">{personInfo.car}</TableCell>
-        <TableCell align="right">{personInfo.address}</TableCell>
-        <TableCell align="right">{personInfo.location}</TableCell>
-        <TableCell align="right">{}</TableCell>
-        <TableCell>
-          <Tooltip title="Edit" placement="left">
-            <IconButton
-              aria-label="Edit"
-              onClick={() => {
-                this.handleEdit(personInfo.name, personInfo.car);
-              }}
-            >
-              <EditIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        </TableCell>
-        <TableCell>
-          <Tooltip title="Delete" placement="left">
-            <IconButton
-              onClick={() => this.onDelete(personInfo.name)}
-              aria-label="Delete"
-              color="secondary"
-            >
-              <DeleteIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        </TableCell>
-      </TableRow>
+      <Row
+        id={rowsLenght}
+        personInfo={personInfo}
+        onDelete={this.onDelete}
+        handleEdit={this.handleEdit}
+      />
     );
-    this.setState({ rows: this.state.rows.concat(row) });
+
+    this.setState({ rows: this.state.rows.set(rowsLenght, row) });
   };
 
+  get() {
+    const rowsLenght = this.state.rows.size;
+    const { rows } = [];
+    console.log(this.state.rows);
+    for (const k of this.state.rows) {
+      rows.concat(k);
+    }
+  }
+
   render() {
-    const { editmode } = this.state;
+    this.get();
+    console.log(this.rows);
+
+    // console.log(this.state.rows.get(0));
+
     return (
       <Fragment>
-        <NavBar addToNavBar={this.addToList} editmode={editmode} />
-        <Table rows={this.state.rows} />
+        <NavBar addToNavBar={this.addToList} />
+        <Table rows={this.state.rows.get(0)} />
       </Fragment>
     );
   }

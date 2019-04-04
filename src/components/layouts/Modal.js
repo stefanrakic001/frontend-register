@@ -29,7 +29,7 @@ export default class extends Component {
 
   render() {
     const { open } = this.state;
-    const { classes, editmode, onSubmit } = this.props;
+    const { classes, onSubmit, personInfo } = this.props;
 
     return (
       <Fragment>
@@ -48,7 +48,7 @@ export default class extends Component {
           <DialogContent>
             <DialogContentText>Please fill out the form</DialogContentText>
             <Form
-              editmode={editmode}
+              personInfo={personInfo}
               classes={classes}
               onSubmit={onSubmit}
               open={this.open}

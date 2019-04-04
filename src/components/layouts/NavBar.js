@@ -2,7 +2,7 @@ import React from "react";
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import Modal from "../layouts/Modal";
 
-export default ({ addToNavBar, editmode }) => (
+export default ({ addToNavBar }) => (
   <AppBar position="static" color="primary">
     <Toolbar>
       <Typography
@@ -14,7 +14,7 @@ export default ({ addToNavBar, editmode }) => (
       >
         Register
       </Typography>
-      <Modal onSubmit={addToNavBar} editmode={editmode} />
+      <Modal onSubmit={addToNavBar} />
     </Toolbar>
   </AppBar>
 );
