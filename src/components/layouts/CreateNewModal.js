@@ -10,7 +10,7 @@ import {
 import { Add } from "@material-ui/icons";
 import Form from "./Form";
 
-export default class extends Component {
+export default class CreateNewModal extends Component {
   state = {
     open: false
   };
@@ -29,7 +29,7 @@ export default class extends Component {
 
   render() {
     const { open } = this.state;
-    const { classes, onSubmit, personInfo } = this.props;
+    const { classes, onSubmit } = this.props;
 
     return (
       <Fragment>
@@ -48,7 +48,7 @@ export default class extends Component {
           <DialogContent>
             <DialogContentText>Please fill out the form</DialogContentText>
             <Form
-              personInfo={personInfo}
+              personInfo={null}
               classes={classes}
               onSubmit={onSubmit}
               open={this.open}

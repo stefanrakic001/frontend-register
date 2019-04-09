@@ -9,6 +9,7 @@ import {
   TableRow,
   Paper
 } from "@material-ui/core";
+import Row from "./Row"
 
 const styles = theme => ({
   root: {
@@ -23,7 +24,8 @@ const styles = theme => ({
 
 function SimpleTable(props) {
   const { classes } = props;
-
+  const onDelete = props.onDelete;
+  const handleEdit = props.handleEdit;
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
@@ -39,7 +41,16 @@ function SimpleTable(props) {
             <TableCell>Delete</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>{props.rows}</TableBody>
+        <TableBody>{props.rows ? props.rows.map((row, index) =>
+            <Row
+                rowId={index}
+                personInfo={row}
+                onDelete={onDelete}
+                handleEdit={handleEdit}
+                key={index}
+            />
+        ) : null}
+        </TableBody>
       </Table>
     </Paper>
   );

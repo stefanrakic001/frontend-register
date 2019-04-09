@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import NavBar from "./components/layouts/NavBar";
 import Table from "./components/layouts/Table";
-import Row from "./components/layouts/Row";
 
 class App extends Component {
   constructor(props) {
@@ -9,57 +8,77 @@ class App extends Component {
     this.onDelete = this.onDelete.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.state = {
-      rows: new Map()
+      rows: null,
+      tempPerson: null,
     };
   }
 
-  onDelete = id => {
-    let rows = this.state.rows;
-    rows.delete(id);
-    console.log(rows);
+  componentDidMount() {
+    const rows = [];
     this.setState({
       rows: rows
-    });
-  };
-
-  handleEdit = (id, car) =>
-    this.setState({
-      rows: this.state.rows.filter(row => row.key !== id)
-    });
-
-  addToList = personInfo => {
-    const rowsLenght = this.state.rows.size;
-    const row = (
-      <Row
-        id={rowsLenght}
-        personInfo={personInfo}
-        onDelete={this.onDelete}
-        handleEdit={this.handleEdit}
-      />
-    );
-
-    this.setState({ rows: this.state.rows.set(rowsLenght, row) });
-  };
-
-  get() {
-    const rowsLenght = this.state.rows.size;
-    const { rows } = [];
-    console.log(this.state.rows);
-    for (const k of this.state.rows) {
-      rows.concat(k);
-    }
+    })
   }
 
+
+  onDelete(id){
+    console.log("[START] On delete.");
+    let rows = this.state.rows;
+    console.log("This will be deleted: " + id + "and this is the name of it: " + rows[id].name);
+    let leftOverRows = [];
+      for (let index = 0; index < rows.length; index++) {
+          if (index === id) {
+              continue;
+          } else {
+              leftOverRows.push(rows[index]);
+          }
+      }
+    console.log("[INFO] Rows are in the onDelete: " + leftOverRows.map(row => row.name));
+    this.setState({
+      rows: leftOverRows
+    });
+    console.log("[END] On delete.");
+  };
+
+  handleEdit = (index, personInfo) => {
+      console.log("[START] Handel Edit");
+      let rows = this.state.rows;
+      let modifiedRows = [];
+      console.log("[INFO] Modified personInfo's name: " + personInfo.name);
+      console.log("[INFO] index is: " + index);
+      for(let i = 0; i < rows.length; i++) {
+          if (i !== index) {
+              modifiedRows.push(rows[i]);
+          } else {
+              modifiedRows.push(personInfo);
+          }
+      }
+      this.setState({rows: modifiedRows});
+
+      console.log("[INFO] Name of saved row: " + this.state.rows[index].name);
+      console.log("[END] Handle Edit");
+  }
+
+
+  addToList = personInfo => {
+    console.log("[START] Add to list.");
+    const rows = this.state.rows;
+    const row = personInfo;
+    rows.push(row);
+    this.setState({ rows: rows});
+    console.log("[END] Add to list.");
+  };
+
+
   render() {
-    this.get();
-    console.log(this.rows);
-
-    // console.log(this.state.rows.get(0));
-
-    return (
+    console.log("[START] Render");
+    let rows = this.state.rows;
+    if (rows !== null) console.log("[INFO] Rows are: " + this.state.rows.map(row => row.name));
+    console.log("[END] Render");
+      return (
       <Fragment>
         <NavBar addToNavBar={this.addToList} />
-        <Table rows={this.state.rows.get(0)} />
+        <Table rows={rows} onDelete={this.onDelete} handleEdit={this.handleEdit}/>
       </Fragment>
     );
   }

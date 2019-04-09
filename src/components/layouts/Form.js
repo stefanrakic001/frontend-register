@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
   Button,
   TextField,
@@ -18,6 +18,7 @@ export default withStyles(styles)(
   class extends Component {
     state = {
       open: false,
+      rowId: null,
       personInfo: {
         name: "",
         status: "",
@@ -28,11 +29,19 @@ export default withStyles(styles)(
       }
     };
 
-    getInitialState() {
-      const { personInfo } = this.props;
+    componentDidMount() {
+      if (this.props.personInfo !== null) {
+        this.setState({personInfo: this.props.personInfo, rowId: this.props.rowId});
+      }
     }
 
-    handleChange = name => ({ target: { value } }) => {
+    componentWillReceiveProps(nextProps) {
+      if (nextProps.personInfo !== null) {
+        this.setState({personInfo: nextProps.personInfo, rowId: nextProps.rowId});
+      }
+    }
+
+    handleChange = name => ({target: {value}}) => {
       this.setState({
         personInfo: {
           ...this.state.personInfo,
@@ -41,20 +50,30 @@ export default withStyles(styles)(
       });
     };
 
+
     submitHandler = () => {
-      const { personInfo, open } = this.state;
+      console.log("[START] Submit Handler");
+      const {open} = this.state;
       this.props.open(open);
-      this.props.onSubmit(personInfo);
+      if (this.state.rowId === null) {
+        this.props.onSubmit(this.state.personInfo);
+        console.log("[INFO] Person info submitted.");
+      } else {
+        console.log("[INFO] RowId is: " + this.state.rowId);
+        this.props.onSubmit(this.state.rowId, this.state.personInfo);
+      }
       this.setState({
-        personInfo: { name: "", status: "", car: "", address: "", location: "" }
+        rowId: null,
+        personInfo: {name: "", status: "", car: "", address: "", location: ""}
       });
+      console.log("[END] Submit Handler");
     };
 
     render() {
       const {
-        personInfo: { name, status, car, address, location }
+        personInfo: {name, status, car, address, location}
       } = this.state;
-      const { classes, onSubmit } = this.props;
+      const {classes} = this.props;
 
       return (
         <form className={classes.container}>
@@ -67,14 +86,14 @@ export default withStyles(styles)(
           />
           <InputLabel htmlFor="age-native-simple">Status</InputLabel>
           <Select native value={status} onChange={this.handleChange("status")}>
-            <option value="" />
+            <option value=""/>
             <option value={"Available"}> Available</option>
             <option value={"Not available"}> Not available</option>
           </Select>
 
           <InputLabel htmlFor="age-native-simple">Car</InputLabel>
           <Select native value={car} onChange={this.handleChange("car")}>
-            <option value="" />
+            <option value=""/>
             <option value={"XML-333"}> XML-333</option>
             <option value={"RTE-343"}>RTE-343</option>
           </Select>
@@ -96,11 +115,11 @@ export default withStyles(styles)(
 
           <Button
             color="primary"
-            variant="raised"
+            variant="contained"
             onClick={this.submitHandler}
             mini
           >
-            Create
+            {this.state.rowId ? "Edit" : "Create"}
           </Button>
         </form>
       );
