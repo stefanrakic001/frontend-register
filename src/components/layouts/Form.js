@@ -83,7 +83,7 @@ export default withStyles(styles)(
       const { classes } = this.props;
 
       return (
-        <form className={classes.root}>
+        <form className={classes.root} noValidate>
           <Grid container spacing={24}>
             <Grid item xs={12}>
               <Paper className={classes.paper}>

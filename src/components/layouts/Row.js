@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ModifyModal from "./ModifyModal";
+import AttachMoney from "@material-ui/icons/AttachMoney";
 
 export default class Row extends Component {
   constructor(props) {
@@ -54,7 +55,11 @@ export default class Row extends Component {
           <TableCell align="right">{personInfo.car}</TableCell>
           <TableCell align="right">{personInfo.address}</TableCell>
           <TableCell align="right">{personInfo.location}</TableCell>
-          <TableCell align="right">{}</TableCell>
+          <TableCell align="right">
+            <IconButton>
+              <AttachMoney />
+            </IconButton>
+          </TableCell>
           <TableCell>
             <Tooltip title="Edit" placement="left">
               <ModifyModal
