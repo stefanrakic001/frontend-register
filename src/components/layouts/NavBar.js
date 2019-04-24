@@ -12,9 +12,9 @@ export default ({ addToNavBar }) => (
           flex: 1
         }}
       >
-        Register
+        Employee Register
       </Typography>
-      <CreateNewModal onSubmit={addToNavBar}/>
+      <CreateNewModal onSubmit={addToNavBar} />
     </Toolbar>
   </AppBar>
 );

@@ -7,9 +7,10 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Paper
+  Paper,
+  Grid
 } from "@material-ui/core";
-import Row from "./Row"
+import Row from "./Row";
 
 const styles = theme => ({
   root: {
@@ -27,32 +28,37 @@ function SimpleTable(props) {
   const onDelete = props.onDelete;
   const handleEdit = props.handleEdit;
   return (
-    <Paper className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell>Name </TableCell>
-            <TableCell align="right">Status</TableCell>
-            <TableCell align="right">Car </TableCell>
-            <TableCell align="right">Construction Address </TableCell>
-            <TableCell align="right">Location</TableCell>
-            <TableCell align="right">Payment</TableCell>
-            <TableCell>Edit</TableCell>
-            <TableCell>Delete</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>{props.rows ? props.rows.map((row, index) =>
-            <Row
-                rowId={index}
-                personInfo={row}
-                onDelete={onDelete}
-                handleEdit={handleEdit}
-                key={index}
-            />
-        ) : null}
-        </TableBody>
-      </Table>
-    </Paper>
+    <Grid item xs={12}>
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name </TableCell>
+              <TableCell align="right">Status</TableCell>
+              <TableCell align="right">Car </TableCell>
+              <TableCell align="right">Construction Address </TableCell>
+              <TableCell align="right">Location</TableCell>
+              <TableCell align="right">Payment</TableCell>
+              <TableCell>Edit</TableCell>
+              <TableCell>Delete</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {props.rows
+              ? props.rows.map((row, index) => (
+                  <Row
+                    rowId={index}
+                    personInfo={row}
+                    onDelete={onDelete}
+                    handleEdit={handleEdit}
+                    key={index}
+                  />
+                ))
+              : null}
+          </TableBody>
+        </Table>
+      </Paper>
+    </Grid>
   );
 }
 
