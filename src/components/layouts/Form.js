@@ -17,6 +17,12 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
     textAlign: "center",
     color: theme.palette.text.secondary
+  },
+  input: {
+    marginRight: theme.spacing.unit * 4
+  },
+  inputLabel: {
+    marginRight: theme.spacing.unit * 2
   }
 });
 
@@ -101,8 +107,14 @@ export default withStyles(styles)(
             </Grid>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <InputLabel htmlFor="age-native-simple">Status</InputLabel>
+                <InputLabel
+                  className={classes.inputLabel}
+                  htmlFor="age-native-simple"
+                >
+                  Status
+                </InputLabel>
                 <Select
+                  className={classes.input}
                   native
                   value={status}
                   onChange={this.handleChange("status")}
@@ -111,8 +123,18 @@ export default withStyles(styles)(
                   <option value={"Available"}> Available</option>
                   <option value={"Not available"}> Not available</option>
                 </Select>
-                <InputLabel htmlFor="age-native-simple">Car</InputLabel>
-                <Select native value={car} onChange={this.handleChange("car")}>
+                <InputLabel
+                  className={classes.inputLabel}
+                  htmlFor="age-native-simple"
+                >
+                  Car
+                </InputLabel>
+                <Select
+                  className={classes.input}
+                  native
+                  value={car}
+                  onChange={this.handleChange("car")}
+                >
                   <option value="" />
                   <option value={"XML-333"}> XML-333</option>
                   <option value={"RTE-343"}>RTE-343</option>
@@ -122,6 +144,7 @@ export default withStyles(styles)(
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <TextField
+                  className={classes.input}
                   label="Construction Address"
                   value={address}
                   onChange={this.handleChange("address")}
@@ -129,6 +152,7 @@ export default withStyles(styles)(
                   variant="outlined"
                 />
                 <TextField
+                  className={classes.input}
                   label="Location"
                   value={location}
                   onChange={this.handleChange("location")}

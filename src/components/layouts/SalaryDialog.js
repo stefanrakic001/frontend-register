@@ -3,10 +3,6 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItem from "@material-ui/core/ListItem";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -14,15 +10,30 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import AttachMoney from "@material-ui/icons/AttachMoney";
+import TextField from "@material-ui/core/TextField";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import { fade } from "@material-ui/core/styles/colorManipulator";
 
-const styles = {
+const styles = theme => ({
   appBar: {
     position: "relative"
   },
   flex: {
     flex: 1
+  },
+  input: {
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.25),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.5)
+    },
+    marginRight: theme.spacing.unit * 4
+  },
+  inputLabel: {
+    marginRight: theme.spacing.unit * 2
   }
-};
+});
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -34,17 +45,29 @@ class FullScreenDialog extends React.Component {
     this.state = {
       open: false,
       rowId: this.props.rowId,
-      workerName: this.props.workerName
+      workerName: this.props.workerName,
+      money: {
+        amount: 0,
+        type: "",
+        date: ""
+      }
     };
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    this.setState(
-      {
-        workerName: nextProps.workerName
-      }
-    );
+    this.setState({
+      workerName: nextProps.workerName
+    });
   }
+
+  handleChange = name => ({ target: { value } }) => {
+    this.setState({
+      money: {
+        ...this.state.money,
+        [name]: value
+      }
+    });
+  };
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -79,23 +102,56 @@ class FullScreenDialog extends React.Component {
               <Typography variant="h6" color="inherit" className={classes.flex}>
                 {this.state.workerName}
               </Typography>
+              <InputLabel
+                htmlFor="age-native-simple"
+                className={classes.inputLabel}
+              >
+                Amount
+              </InputLabel>
+              <TextField
+                className={classes.input}
+                value={this.state.amount}
+                onChange={this.handleChange("amount")}
+                type="number"
+                margin="dense"
+                variant="outlined"
+              />
+              <InputLabel
+                className={classes.inputLabel}
+                htmlFor="age-native-simple"
+              >
+                Type
+              </InputLabel>
+              <Select
+                className={classes.input}
+                native
+                value={this.state.money.type}
+                onChange={this.handleChange("type")}
+              >
+                <option value="" />
+                <option value={"Normal"}>Normal</option>
+                <option value={"Advance"}>Advance</option>
+              </Select>
+              <InputLabel
+                htmlFor="age-native-simple"
+                className={classes.inputLabel}
+              >
+                Date
+              </InputLabel>
+              <form className={classes.paper} noValidate>
+                <TextField
+                  className={classes.input}
+                  id="date"
+                  type="date"
+                  defaultValue="2017-05-24"
+                />
+              </form>
+
               <Button color="inherit" onClick={this.handleClose}>
                 save
               </Button>
             </Toolbar>
           </AppBar>
-          <List>
-            <ListItem button>
-              <ListItemText primary="Phone ringtone" secondary="Titania" />
-            </ListItem>
-            <Divider />
-            <ListItem button>
-              <ListItemText
-                primary="Default notification ringtone"
-                secondary="Tethys"
-              />
-            </ListItem>
-          </List>
         </Dialog>
       </div>
     );
