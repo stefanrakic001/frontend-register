@@ -5,12 +5,11 @@ import {
   TableCell,
   TableRow,
   IconButton,
-  Tooltip,
-  Link
+  Tooltip
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ModifyModal from "./ModifyModal";
-import AttachMoney from "@material-ui/icons/AttachMoney";
+import SalaryDialog from "./SalaryDialog";
 
 export default class Row extends Component {
   constructor(props) {
@@ -39,15 +38,14 @@ export default class Row extends Component {
   render() {
     if (this.state.personInfo !== null) {
       const { personInfo } = this.state;
+      console.log("[ROW.INFO] PersonInfo name: " + personInfo.name);
       const available = <Check />;
       const notAvailable = <Close />;
 
       return (
         <TableRow key={this.state.id}>
           <TableCell component="th" scope="row">
-            <Link component="button" variant="body2" color="primary">
               {personInfo.name}
-            </Link>
           </TableCell>
           <TableCell align="right">
             {personInfo.status === "Available" ? available : notAvailable}
@@ -56,9 +54,7 @@ export default class Row extends Component {
           <TableCell align="right">{personInfo.address}</TableCell>
           <TableCell align="right">{personInfo.location}</TableCell>
           <TableCell align="right">
-            <IconButton>
-              <AttachMoney />
-            </IconButton>
+            <SalaryDialog rowId={this.state.rowId}/>
           </TableCell>
           <TableCell>
             <Tooltip title="Edit" placement="left">

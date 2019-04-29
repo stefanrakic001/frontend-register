@@ -13,6 +13,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
+import AttachMoney from "@material-ui/icons/AttachMoney";
 
 const styles = {
   appBar: {
@@ -28,9 +29,12 @@ function Transition(props) {
 }
 
 class FullScreenDialog extends React.Component {
-  state = {
-    open: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+    };
+  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -44,13 +48,9 @@ class FullScreenDialog extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={this.handleClickOpen}
-        >
-          Open full-screen dialog
-        </Button>
+        <IconButton onClick={this.handleClickOpen}>
+          <AttachMoney />
+        </IconButton>
         <Dialog
           fullScreen
           open={this.state.open}

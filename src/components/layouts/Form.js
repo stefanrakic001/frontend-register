@@ -25,6 +25,7 @@ export default withStyles(styles)(
     state = {
       open: false,
       rowId: null,
+      isNew: true,
       personInfo: {
         name: "",
         status: "",
@@ -38,6 +39,7 @@ export default withStyles(styles)(
     componentDidMount() {
       if (this.props.personInfo !== null) {
         this.setState({
+          isNew: false,
           personInfo: this.props.personInfo,
           rowId: this.props.rowId
         });
@@ -47,6 +49,7 @@ export default withStyles(styles)(
     componentWillReceiveProps(nextProps) {
       if (nextProps.personInfo !== null) {
         this.setState({
+          isNew: false,
           personInfo: nextProps.personInfo,
           rowId: nextProps.rowId
         });
@@ -65,7 +68,7 @@ export default withStyles(styles)(
     submitHandler = () => {
       const { open } = this.state;
       this.props.open(open);
-      if (this.state.rowId === null) {
+      if (this.state.isNew === true) {
         this.props.onSubmit(this.state.personInfo);
       } else {
         this.props.onSubmit(this.state.rowId, this.state.personInfo);
@@ -141,7 +144,7 @@ export default withStyles(styles)(
             onClick={this.submitHandler}
             mini
           >
-            {this.state.rowId ? "Edit" : "Create"}
+            {this.state.isNew ? "Create" : "Edit"}
           </Button>
         </form>
       );
