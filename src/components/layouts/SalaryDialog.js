@@ -33,7 +33,17 @@ class FullScreenDialog extends React.Component {
     super(props);
     this.state = {
       open: false,
+      rowId: this.props.rowId,
+      workerName: this.props.workerName
     };
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    this.setState(
+      {
+        workerName: nextProps.workerName
+      }
+    );
   }
 
   handleClickOpen = () => {
@@ -67,7 +77,7 @@ class FullScreenDialog extends React.Component {
                 <CloseIcon />
               </IconButton>
               <Typography variant="h6" color="inherit" className={classes.flex}>
-                Sound
+                {this.state.workerName}
               </Typography>
               <Button color="inherit" onClick={this.handleClose}>
                 save

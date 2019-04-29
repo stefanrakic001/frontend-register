@@ -54,7 +54,7 @@ export default class Row extends Component {
           <TableCell align="right">{personInfo.address}</TableCell>
           <TableCell align="right">{personInfo.location}</TableCell>
           <TableCell align="right">
-            <SalaryDialog rowId={this.state.rowId}/>
+            <SalaryDialog rowId={this.state.rowId} workerName={personInfo.name}/>
           </TableCell>
           <TableCell>
             <Tooltip title="Edit" placement="left">
