@@ -1,15 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import AttachMoney from "@material-ui/icons/AttachMoney";
+import Add from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -17,7 +18,8 @@ import { fade } from "@material-ui/core/styles/colorManipulator";
 
 const styles = theme => ({
   appBar: {
-    position: "relative"
+    position: "relative",
+    color: "primary"
   },
   flex: {
     flex: 1
@@ -92,13 +94,15 @@ class FullScreenDialog extends React.Component {
         >
           <AppBar className={classes.appBar}>
             <Toolbar>
-              <IconButton
-                color="inherit"
+              <Button
+                variant="fab"
+                color="extended"
                 onClick={this.handleClose}
                 aria-label="Close"
+                mini
               >
                 <CloseIcon />
-              </IconButton>
+              </Button>
               <Typography variant="h6" color="inherit" className={classes.flex}>
                 {this.state.workerName}
               </Typography>
@@ -136,7 +140,7 @@ class FullScreenDialog extends React.Component {
                 htmlFor="age-native-simple"
                 className={classes.inputLabel}
               >
-                Date
+                Amount
               </InputLabel>
               <form className={classes.paper} noValidate>
                 <TextField
@@ -147,8 +151,13 @@ class FullScreenDialog extends React.Component {
                 />
               </form>
 
-              <Button color="inherit" onClick={this.handleClose}>
-                save
+              <Button
+                variant="fab"
+                color="extended"
+                mini
+                onClick={this.handleClose}
+              >
+                <Add />
               </Button>
             </Toolbar>
           </AppBar>
