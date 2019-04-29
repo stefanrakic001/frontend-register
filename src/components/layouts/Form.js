@@ -24,7 +24,7 @@ export default withStyles(styles)(
   class extends Component {
     state = {
       open: false,
-      rowId: null,
+      rowId: false,
       personInfo: {
         name: "",
         status: "",
@@ -65,7 +65,7 @@ export default withStyles(styles)(
     submitHandler = () => {
       const { open } = this.state;
       this.props.open(open);
-      if (this.state.rowId === null) {
+      if (this.state.rowId === false) {
         this.props.onSubmit(this.state.personInfo);
       } else {
         this.props.onSubmit(this.state.rowId, this.state.personInfo);
@@ -141,7 +141,7 @@ export default withStyles(styles)(
             onClick={this.submitHandler}
             mini
           >
-            {this.state.rowId ? "Edit" : "Create"}
+            {this.state.rowId !== false ? "Edit" : "Create"}
           </Button>
         </form>
       );
