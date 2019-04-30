@@ -14,7 +14,16 @@ class App extends Component {
   }
 
   componentDidMount() {
+    const personInfo = {
+      name: "Sample Jozsef",
+        status: "",
+        car: "",
+        address: "Valami street 34.",
+        location: "",
+        payment: ""
+    };
     const rows = [];
+    rows.push(personInfo)
     this.setState({
       rows: rows
     })
