@@ -15,6 +15,7 @@ import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import { fade } from "@material-ui/core/styles/colorManipulator";
+import CustomPaginationActionsTable from "./SalaryTable";
 
 const styles = theme => ({
   appBar: {
@@ -112,55 +113,56 @@ class FullScreenDialog extends React.Component {
               >
                 Amount
               </InputLabel>
-              <TextField
-                className={classes.input}
-                value={this.state.amount}
-                onChange={this.handleChange("amount")}
-                type="number"
-                margin="dense"
-                variant="outlined"
-              />
-              <InputLabel
-                className={classes.inputLabel}
-                htmlFor="age-native-simple"
-              >
-                Type
-              </InputLabel>
-              <Select
-                className={classes.input}
-                native
-                value={this.state.money.type}
-                onChange={this.handleChange("type")}
-              >
-                <option value="" />
-                <option value={"Normal"}>Normal</option>
-                <option value={"Advance"}>Advance</option>
-              </Select>
-              <InputLabel
-                htmlFor="age-native-simple"
-                className={classes.inputLabel}
-              >
-                Amount
-              </InputLabel>
               <form className={classes.paper} noValidate>
+                <TextField
+                  className={classes.input}
+                  value={this.state.amount}
+                  onChange={this.handleChange("amount")}
+                  type="number"
+                  margin="dense"
+                  variant="outlined"
+                />
+                <InputLabel
+                  className={classes.inputLabel}
+                  htmlFor="age-native-simple"
+                >
+                  Type
+                </InputLabel>
+                <Select
+                  className={classes.input}
+                  native
+                  value={this.state.money.type}
+                  onChange={this.handleChange("type")}
+                >
+                  <option value="" />
+                  <option value={"Normal"}>Normal</option>
+                  <option value={"Advance"}>Advance</option>
+                </Select>
+                <InputLabel
+                  htmlFor="age-native-simple"
+                  className={classes.inputLabel}
+                >
+                  Amount
+                </InputLabel>
                 <TextField
                   className={classes.input}
                   id="date"
                   type="date"
                   defaultValue="2017-05-24"
                 />
-              </form>
 
-              <Button
-                variant="fab"
-                color="extended"
-                mini
-                onClick={this.handleClose}
-              >
-                <Add />
-              </Button>
+                <Button
+                  variant="fab"
+                  color="extended"
+                  mini
+                  onClick={this.handleClose}
+                >
+                  <Add />
+                </Button>
+              </form>
             </Toolbar>
           </AppBar>
+          <CustomPaginationActionsTable />
         </Dialog>
       </div>
     );
