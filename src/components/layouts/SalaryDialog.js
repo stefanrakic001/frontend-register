@@ -142,7 +142,7 @@ class FullScreenDialog extends React.Component {
                   htmlFor="age-native-simple"
                   className={classes.inputLabel}
                 >
-                  Amount
+                  Date
                 </InputLabel>
                 <TextField
                   className={classes.input}
