@@ -48,11 +48,11 @@ export default class Row extends Component {
               {personInfo.name}
           </TableCell>
           <TableCell align="right">
-            {personInfo.status === "Available" ? available : notAvailable}
+            {personInfo.availability === "Available" ? available : notAvailable}
           </TableCell>
           <TableCell align="right">{personInfo.car}</TableCell>
           <TableCell align="right">{personInfo.address}</TableCell>
-          <TableCell align="right">{personInfo.location}</TableCell>
+          <TableCell align="right">{personInfo.construction}</TableCell>
           <TableCell align="right">
             <SalaryDialog rowId={this.state.rowId} workerName={personInfo.name}/>
           </TableCell>

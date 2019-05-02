@@ -34,11 +34,13 @@ export default withStyles(styles)(
       isNew: true,
       personInfo: {
         name: "",
-        status: "",
-        car: "",
+        availability: "",
+        car: {
+          carType: "BMW",
+          lincencePlate: "XML-965"
+        },
         address: "",
-        location: "",
-        payment: ""
+        construction: ""
       }
     };
 
@@ -81,13 +83,13 @@ export default withStyles(styles)(
       }
       this.setState({
         rowId: null,
-        personInfo: { name: "", status: "", car: "", address: "", location: "" }
+        personInfo: { name: "", availability: "", car: "", address: "", construction: "" }
       });
     };
 
     render() {
       const {
-        personInfo: { name, status, car, address, location }
+        personInfo: { name, availability, car, address, construction }
       } = this.state;
       const { classes } = this.props;
 
@@ -111,13 +113,13 @@ export default withStyles(styles)(
                   className={classes.inputLabel}
                   htmlFor="age-native-simple"
                 >
-                  Status
+                  Availability
                 </InputLabel>
                 <Select
                   className={classes.input}
                   native
-                  value={status}
-                  onChange={this.handleChange("status")}
+                  value={availability}
+                  onChange={this.handleChange("availability")}
                 >
                   <option value="" />
                   <option value={"Available"}> Available</option>
@@ -153,9 +155,9 @@ export default withStyles(styles)(
                 />
                 <TextField
                   className={classes.input}
-                  label="Location"
-                  value={location}
-                  onChange={this.handleChange("location")}
+                  label="Construction"
+                  value={construction}
+                  onChange={this.handleChange("constuction")}
                   margin="normal"
                   variant="outlined"
                 />

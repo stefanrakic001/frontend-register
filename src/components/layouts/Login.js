@@ -12,6 +12,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
+import * as jwt_decoder from "jwt-decode";
+
 
 const styles = theme => ({
   main: {
@@ -46,54 +48,107 @@ const styles = theme => ({
   }
 });
 
-function SignIn(props) {
-  const { classes } = props;
+class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      password: ""
+    }
+    this.handleChange = this.handleChange.bind(this);
+    this.logIn = this.logIn.bind(this);
+  }
 
-  return (
-    <main className={classes.main}>
-      <CssBaseline />
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form className={classes.form}>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input id="email" name="email" autoComplete="email" autoFocus />
-          </FormControl>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input
-              name="password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-          </FormControl>
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign in
-          </Button>
-        </form>
-      </Paper>
-    </main>
-  );
+  handleChange = name => ({ target: { value } }) => {
+    this.setState({
+        [name]: value
+    });
+  };
+
+  logIn() {
+
+    const user = {
+      username: this.state.username,
+      password: this.state.password
+    };
+    console.log(user);
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const options = {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(user),
+    };
+
+    const request = new Request('http://localhost:8080/api/auth/signin',options);
+    fetch(request)
+      .then(response => response.json()
+        .then(data => {
+          console.log(data);
+          try{
+            const user = jwt_decoder(data.response);
+            console.log(user.sub);
+            sessionStorage.setItem("username", user.sub);
+            sessionStorage.setItem("token", data.response);
+            window.location.replace("http://localhost:3000");
+
+          }catch (e) {
+            this.setState({failed_login: true})
+          }
+        }));
+  }
+
+  render() {
+    const {classes} = this.props;
+      return (
+        <main className={classes.main}>
+          <CssBaseline/>
+          <Paper className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon/>
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <form className={classes.form}>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="username">Username</InputLabel>
+                <Input
+                  id="username"
+                  name="username"
+                  value={this.state.username}
+                  onChange={this.handleChange("username")}
+                  autoFocus/>
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="password">Password</InputLabel>
+                <Input
+                  name="password"
+                  type="password"
+                  value={this.state.password}
+                  id="password"
+                  onChange={this.handleChange("password")}
+                />
+              </FormControl>
+              <Button
+                type="button"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={this.logIn}
+              >
+                Sign in
+              </Button>
+            </form>
+          </Paper>
+        </main>
+      );
+    }
 }
 
-SignIn.propTypes = {
+/*SignIn.propTypes = {
   classes: PropTypes.object.isRequired
-};
+};*/
 
-export default withStyles(styles)(SignIn);
+export default withStyles(styles)(Login);

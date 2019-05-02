@@ -4,9 +4,13 @@ import { AccountCircle } from "@material-ui/icons";
 import Login from "./Login";
 
 export default class CreateNewModal extends Component {
-  state = {
-    open: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false
+    }
+  }
+
 
   handleToggle = () => {
     this.setState({
@@ -19,6 +23,7 @@ export default class CreateNewModal extends Component {
       open: open
     });
   };
+
 
   render() {
     const { open } = this.state;

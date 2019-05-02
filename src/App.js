@@ -15,12 +15,11 @@ class App extends Component {
 
   componentDidMount() {
     const personInfo = {
-      name: "Sample Jozsef",
-        status: "",
+        name: "Sample Jozsef",
+        availability: "",
         car: "",
         address: "Valami street 34.",
-        location: "",
-        payment: ""
+        construction: ""
     };
     const rows = [];
     rows.push(personInfo)
