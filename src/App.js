@@ -101,11 +101,30 @@ class App extends Component {
 
 
   addToList = personInfo => {
-    console.log("[START] Add to list.");
-    const rows = this.state.rows;
-    const row = personInfo;
-    rows.push(row);
-    this.setState({ rows: rows});
+    if (sessionStorage.getItem("token")!=null){
+      const headers = new Headers();
+      headers.append('Content-Type','application/json');
+      headers.append('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+      const options ={
+        method: 'POST',
+        headers,
+        body: JSON.stringify(personInfo)
+      };
+
+      const request = new Request(getUrl()+'/employee/createEmployee/',options);
+      fetch(request)
+        .then(response => response.json()
+          .then(data=>{
+            if (data.message === "SUCCESS!") {
+              this.getRowsFromBackEnd();
+            } else {
+              this.setState({loggedIn:false, rows:null});
+            }
+            console.log(data.message);
+          }));
+    }else {
+      this.setState({loggedIn:false, rows:null});
+    }
     console.log("[END] Add to list.");
   };
 

@@ -17,12 +17,14 @@ export default class CreateNewModal extends Component {
   };
 
   componentDidMount() {
+    console.log(this.props.isLoggedIn);
     this.setState({
       loggedIn: this.props.isLoggedIn
     });
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
+    console.log(nextProps.isLoggedIn);
     this.setState({
       loggedIn: nextProps.isLoggedIn
     });
@@ -69,6 +71,7 @@ export default class CreateNewModal extends Component {
               classes={classes}
               onSubmit={onSubmit}
               open={this.open}
+              handleToggle={this.handleToggle}
             />
           </DialogContent>
         </Dialog>
