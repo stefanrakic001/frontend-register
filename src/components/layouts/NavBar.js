@@ -4,7 +4,7 @@ import CreateNewModal from "./CreateNewModal";
 import OpenLogin from "./OpenLogin";
 import { Grid } from "@material-ui/core";
 
-export default ({ addToNavBar }) => (
+export default ({ addToNavBar, handleLoggedIn, isLoggedIn }) => (
   <AppBar position="static" color="primary">
     <Toolbar>
       <Typography
@@ -17,9 +17,9 @@ export default ({ addToNavBar }) => (
         Employee Register
       </Typography>
       <Grid item xs={10}>
-        <OpenLogin />
+        <OpenLogin handleLoggedIn={handleLoggedIn}/>
       </Grid>
-      <CreateNewModal onSubmit={addToNavBar} />
+      <CreateNewModal onSubmit={addToNavBar} isLoggedIn={isLoggedIn}/>
     </Toolbar>
   </AppBar>
 );

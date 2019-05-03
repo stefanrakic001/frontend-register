@@ -50,7 +50,7 @@ export default class Row extends Component {
           <TableCell align="right">
             {personInfo.availability === "Available" ? available : notAvailable}
           </TableCell>
-          <TableCell align="right">{personInfo.car}</TableCell>
+          <TableCell align="right">{personInfo.car.licencePlate + " " + personInfo.car.carType}</TableCell>
           <TableCell align="right">{personInfo.address}</TableCell>
           <TableCell align="right">{personInfo.construction}</TableCell>
           <TableCell align="right">
@@ -70,7 +70,7 @@ export default class Row extends Component {
               <IconButton
                 id={this.state.rowId}
                 onClick={() => {
-                  this.onRowDelete(this.state.rowId);
+                  this.onRowDelete(personInfo.id);
                 }}
                 aria-label="Delete"
                 color="secondary"

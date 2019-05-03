@@ -67,6 +67,7 @@ class Login extends React.Component {
   };
 
   logIn() {
+    const {onClose, handleLoggedIn } = this.props;
 
     const user = {
       username: this.state.username,
@@ -91,6 +92,8 @@ class Login extends React.Component {
             console.log(user.sub);
             sessionStorage.setItem("username", user.sub);
             sessionStorage.setItem("token", data.accessToken);
+            onClose();
+            handleLoggedIn();
           }catch (e) {
             console.log(e);
             this.setState({failed_login: true})

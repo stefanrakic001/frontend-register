@@ -9,6 +9,7 @@ export default class CreateNewModal extends Component {
     this.state = {
       open: false
     }
+    this.handleToggle = this.handleToggle.bind(this);
   }
 
 
@@ -27,6 +28,8 @@ export default class CreateNewModal extends Component {
 
   render() {
     const { open } = this.state;
+    const { handleLoggedIn } = this.props;
+    console.log("open login props."+this.props);
 
     return (
       <Fragment>
@@ -40,9 +43,9 @@ export default class CreateNewModal extends Component {
             <AccountCircle />
           </Button>
         </Tooltip>
-        <Dialog open={open} onClose={this.handleToggle}>
+        <Dialog open={open} >
           <DialogContent>
-            <Login />
+            <Login handleLoggedIn={handleLoggedIn} onClose={this.handleToggle}/>
           </DialogContent>
         </Dialog>
       </Fragment>

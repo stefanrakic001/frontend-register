@@ -1,12 +1,14 @@
 import React, { Component, Fragment } from "react";
 import NavBar from "./components/layouts/NavBar";
 import Table from "./components/layouts/Table";
+import {getUrl} from "./components/ApiUrl";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.onDelete = this.onDelete.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.loggedIn = this.loggedIn.bind(this);
     this.state = {
       rows: null,
       tempPerson: null,
@@ -14,44 +16,69 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
-    const personInfo = {
-        name: "Sample Jozsef",
-        availability: "",
-        car: "",
-        address: "Valami street 34.",
-        construction: ""
-    };
-    const rows = [];
-    rows.push(personInfo)
+
+  loggedIn = () => {
     this.setState({
-      rows: rows
-    })
+      loggedIn: true
+    });
+    this.getRowsFromBackEnd();
   }
 
-  loggedIn() {
+  getRowsFromBackEnd() {
+    if (sessionStorage.getItem("token")!=null){
+      const headers = new Headers();
+        headers.append('Content-Type','application/json');
+        headers.append('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+      const options ={
+        method: 'GET',
+        headers,
+      };
 
+      const request = new Request(getUrl()+'/employee/employees',options);
+      fetch(request)
+        .then(response => response.json()
+          .then(data=>{
+            if (response.status === 401) {
+              sessionStorage.clear();
+              this.setState({loggedIn: false, rows: null});
+              console.log("Invalid token!");
+            } else if (data.length === 0) {
+              this.setState({rows: null});
+            } else {
+              this.setState({rows: data});
+            }
+          }));
+    }else {
+      this.setState({loggedIn:false, rows:null});
+    }
   }
 
 
   onDelete(id){
-    console.log("[START] On delete.");
-    let rows = this.state.rows;
-    console.log("This will be deleted: " + id + "and this is the name of it: " + rows[id].name);
-    let leftOverRows = [];
-      for (let index = 0; index < rows.length; index++) {
-          if (index === id) {
-              continue;
-          } else {
-              leftOverRows.push(rows[index]);
-          }
-      }
-    console.log("[INFO] Rows are in the onDelete: " + leftOverRows.map(row => row.name));
-    this.setState({
-      rows: leftOverRows
-    });
-    console.log("[END] On delete.");
-  };
+    if (sessionStorage.getItem("token")!=null){
+      const headers = new Headers();
+      headers.append('Content-Type','application/json');
+      headers.append('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+      const options ={
+        method: 'DELETE',
+        headers,
+      };
+
+      const request = new Request(getUrl()+'/employee/delete/' + id,options);
+      fetch(request)
+        .then(response => response.json()
+          .then(data=>{
+            if (data.message === "SUCCESS!") {
+              this.getRowsFromBackEnd();
+            } else {
+              this.setState({loggedIn:false, rows:null});
+            }
+            console.log(data.message);
+          }));
+    }else {
+      this.setState({loggedIn:false, rows:null});
+    }
+  }
 
   handleEdit = (index, personInfo) => {
       console.log("[START] Handel Edit");
@@ -90,7 +117,7 @@ class App extends Component {
     console.log("[END] Render");
       return (
       <Fragment>
-        <NavBar addToNavBar={this.addToList} />
+        <NavBar handleLoggedIn={this.loggedIn} isLoggedIn={this.state.loggedIn} addToNavBar={this.addToList} />
         <Table rows={rows} onDelete={this.onDelete} handleEdit={this.handleEdit}/>
       </Fragment>
     );
