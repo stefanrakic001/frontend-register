@@ -13,6 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import * as jwt_decoder from "jwt-decode";
+import {getUrl} from "../ApiUrl";
 
 
 const styles = theme => ({
@@ -80,19 +81,18 @@ class Login extends React.Component {
       body: JSON.stringify(user),
     };
 
-    const request = new Request('http://localhost:8080/api/auth/signin',options);
+    const request = new Request( getUrl() + "/api/auth/signin",options);
     fetch(request)
       .then(response => response.json()
         .then(data => {
           console.log(data);
           try{
-            const user = jwt_decoder(data.response);
+            const user = jwt_decoder(data.accessToken);
             console.log(user.sub);
             sessionStorage.setItem("username", user.sub);
-            sessionStorage.setItem("token", data.response);
-            window.location.replace("http://localhost:3000");
-
+            sessionStorage.setItem("token", data.accessToken);
           }catch (e) {
+            console.log(e);
             this.setState({failed_login: true})
           }
         }));

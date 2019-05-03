@@ -10,6 +10,7 @@ class App extends Component {
     this.state = {
       rows: null,
       tempPerson: null,
+      loggedIn: false
     };
   }
 
@@ -26,6 +27,10 @@ class App extends Component {
     this.setState({
       rows: rows
     })
+  }
+
+  loggedIn() {
+
   }
 
 

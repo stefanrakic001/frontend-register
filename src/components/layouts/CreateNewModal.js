@@ -12,13 +12,18 @@ import Form from "./Form";
 
 export default class CreateNewModal extends Component {
   state = {
-    open: false
+    open: false,
+    LoggedIn: false
   };
 
   handleToggle = () => {
-    this.setState({
-      open: !this.state.open
-    });
+    if(!this.state.LoggedIn) {
+      alert("You have to log in fist!");
+    } else {
+      this.setState({
+        open: !this.state.open
+      });
+    }
   };
 
   open = open => {
