@@ -61,7 +61,6 @@ export default class ModifyModal extends Component {
                             classes={classes}
                             onSubmit={onSubmit}
                             open={this.open}
-                            rowId={this.state.rowId}
                         />
                     </DialogContent>
                 </Dialog>

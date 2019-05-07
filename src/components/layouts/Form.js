@@ -49,10 +49,27 @@ export default withStyles(styles)(
 
     componentDidMount() {
       if (this.props.personInfo !== null) {
+        const car = this.props.personInfo.car;
+        const status = this.availabilityConverter(this.props.personInfo.availability);
         this.getCars();
         this.setState({
-          personInfo: this.props.personInfo
+          personInfo: this.props.personInfo,
+          selectedCar: car.lincencePlate + " " + car.carType + " " + car.id,
+          selectedStatus: status
         });
+      }
+    }
+
+    availabilityConverter(availability) {
+      switch (availability) {
+        case "AVAILABLE" :
+          return "Available";
+        case "NOTAVAILABLE" :
+          return "Not Available";
+        case "HOLIDAY":
+          return "Holiday";
+        case "SICKLEAVE":
+          return "Sickleave";
       }
     }
 
@@ -93,10 +110,14 @@ export default withStyles(styles)(
     }
 
     componentWillReceiveProps(nextProps) {
+      const car = nextProps.personInfo.car;
+      const status = this.availabilityConverter(nextProps.personInfo.availability);
       this.getCars();
       if (nextProps.personInfo !== null) {
         this.setState({
-          personInfo: nextProps.personInfo
+          personInfo: nextProps.personInfo,
+          selectedCar: car.licencePlate + " " + car.carType + " " + car.id,
+          selectedStatus: status
         });
       }
     }
@@ -173,6 +194,8 @@ export default withStyles(styles)(
       } = this.state;
       const { classes } = this.props;
       const cars = this.state.cars;
+      console.log("[INFO.SELECTED-STATUS] is " + this.state.selectedStatus.toString());
+      console.log("[INFO.SELECTED-CAR] is " + this.state.selectedCar.toString());
 
       return (
         <form className={classes.root} noValidate>

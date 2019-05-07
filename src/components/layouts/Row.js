@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Check from "@material-ui/icons/Check";
 import Close from "@material-ui/icons/Close";
+import BeachAccess from "@material-ui/icons/BeachAccess";
+import SentimentVeryDissatisfied from "@material-ui/icons/SentimentVeryDissatisfied";
 import {
   TableCell,
   TableRow,
@@ -18,6 +20,7 @@ export default class Row extends Component {
       personInfo: null,
       rowId: null
     };
+    this.decideSymbol = this.decideSymbol.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +38,20 @@ export default class Row extends Component {
     const { onDelete } = this.props;
     onDelete(id);
   }
+
+  decideSymbol(status) {
+    switch (status) {
+      case "AVAILABLE" :
+        return <Check />;
+      case "NOTAVAILABLE" :
+        return <Close />;
+      case "HOLIDAY":
+        return <BeachAccess />;
+      case "SICKLEAVE":
+        return <SentimentVeryDissatisfied />;
+    }
+  }
+
   render() {
     if (this.state.personInfo !== null) {
       const { personInfo } = this.state;
@@ -48,7 +65,7 @@ export default class Row extends Component {
               {personInfo.name}
           </TableCell>
           <TableCell align="right">
-            {personInfo.availability === "Available" ? available : notAvailable}
+            {this.decideSymbol(personInfo.availability)}
           </TableCell>
           <TableCell align="right">{personInfo.car.licencePlate + " " + personInfo.car.carType}</TableCell>
           <TableCell align="right">{personInfo.address}</TableCell>
