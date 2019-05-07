@@ -8,7 +8,7 @@ import {
   Grid,
   Paper
 } from "@material-ui/core";
-import {getUrl} from "../ApiUrl";
+import { getUrl } from "../ApiUrl";
 
 const styles = theme => ({
   root: {
@@ -50,41 +50,44 @@ export default withStyles(styles)(
       if (this.props.personInfo !== null) {
         this.getCars();
         this.setState({
-          personInfo: this.props.personInfo,
+          personInfo: this.props.personInfo
         });
       }
     }
 
     getCars() {
-      if (sessionStorage.getItem("token")!=null){
+      if (sessionStorage.getItem("token") != null) {
         const headers = new Headers();
-        headers.append('Content-Type','application/json');
-        headers.append('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
-        const options ={
-          method: 'GET',
-          headers,
+        headers.append("Content-Type", "application/json");
+        headers.append(
+          "Authorization",
+          "Bearer " + sessionStorage.getItem("token")
+        );
+        const options = {
+          method: "GET",
+          headers
         };
 
-        const request = new Request(getUrl()+'/car/list',options);
+        const request = new Request(getUrl() + "/car/list", options);
         fetch(request)
-          .then(response => response.json()
-            .then(data=>{
+          .then(response =>
+            response.json().then(data => {
               if (response.status === 401) {
                 sessionStorage.clear();
-                this.setState({cars: null});
+                this.setState({ cars: null });
                 this.props.handleToggle();
                 alert("Your are logged out!");
                 console.log("Invalid token!");
               } else if (data.length === 0) {
-                this.setState({cars: null});
+                this.setState({ cars: null });
               } else {
-                this.setState({cars: data});
+                this.setState({ cars: data });
               }
             })
-          ).then( () => {
-        });
-      }else {
-        this.setState({loggedIn:false, rows:null});
+          )
+          .then(() => {});
+      } else {
+        this.setState({ loggedIn: false, rows: null });
       }
     }
 
@@ -92,7 +95,7 @@ export default withStyles(styles)(
       this.getCars();
       if (nextProps.personInfo !== null) {
         this.setState({
-          personInfo: nextProps.personInfo,
+          personInfo: nextProps.personInfo
         });
       }
     }
@@ -106,7 +109,7 @@ export default withStyles(styles)(
       });
     };
 
-    handleCarChange = name => ({target: {value}}) => {
+    handleCarChange = name => ({ target: { value } }) => {
       const carData = value.split(" ");
       this.setState({
         personInfo: {
@@ -117,10 +120,10 @@ export default withStyles(styles)(
           }
         },
         selectedCar: value
-      })
-    }
+      });
+    };
 
-    handleAvailabilityChange = name => ({target: {value}}) => {
+    handleAvailabilityChange = name => ({ target: { value } }) => {
       let status = "";
       switch (value) {
         case "Available":
@@ -137,21 +140,28 @@ export default withStyles(styles)(
       }
       this.setState({
         personInfo: {
-          ...this.personInfo,
+          ...this.state.personInfo,
           availability: status
         },
         selectedStatus: value
       });
-      console.log("[STATUS.INFO] status is: " + this.state.personInfo.availability);
-    }
-
+      console.log(
+        "[STATUS.INFO] status is: " + this.state.personInfo.availability
+      );
+    };
 
     submitHandler = () => {
       const { open } = this.state;
       this.props.open(open);
       this.props.onSubmit(this.state.personInfo);
       this.setState({
-        personInfo: { name: "", availability: "", car: "", address: "", construction: "" }
+        personInfo: {
+          name: "",
+          availability: "",
+          car: "",
+          address: "",
+          construction: ""
+        }
       });
     };
 
@@ -209,8 +219,10 @@ export default withStyles(styles)(
                   onChange={this.handleCarChange("car")}
                 >
                   <option value="" />
-                  {this.state.cars.map((auto) => (
-                    <option value={auto.licencePlate + " " + auto.carType}>{auto.licencePlate + " " + auto.carType}</option>
+                  {this.state.cars.map(auto => (
+                    <option value={auto.licencePlate + " " + auto.carType}>
+                      {auto.licencePlate + " " + auto.carType}
+                    </option>
                   ))}
                 </Select>
               </Paper>
@@ -229,7 +241,7 @@ export default withStyles(styles)(
                   className={classes.input}
                   label="Construction"
                   value={construction}
-                  onChange={this.handleChange("constuction")}
+                  onChange={this.handleChange("construction")}
                   margin="normal"
                   variant="outlined"
                 />
