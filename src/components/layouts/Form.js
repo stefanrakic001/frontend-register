@@ -135,14 +135,15 @@ export default withStyles(styles)(
         case "Sickleave":
           status = "SICKLEAVE";
       }
+      const newPersonInfo = {
+        ...this.state.personInfo,
+        availability: status
+      }
       this.setState({
-        personInfo: {
-          ...this.personInfo,
-          availability: status
-        },
+        personInfo: newPersonInfo,
         selectedStatus: value
       });
-      console.log("[STATUS.INFO] status is: " + this.state.personInfo.availability);
+      console.log("@@@", newPersonInfo);
     }
 
 
