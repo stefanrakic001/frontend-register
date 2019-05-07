@@ -254,7 +254,7 @@ export default withStyles(styles)(
             onClick={this.submitHandler}
             mini
           >
-            {this.state.isNew ? "Create" : "Edit"}
+            {this.state.personInfo.id ? "Edit" : "Create"}
           </Button>
         </form>
       );
