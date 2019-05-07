@@ -35,8 +35,9 @@ export default withStyles(styles)(
         name: "",
         availability: "",
         car: {
-          carType: "BMW",
-          lincencePlate: "XML-965"
+          id: "",
+          carType: "",
+          lincencePlate: ""
         },
         address: "",
         construction: ""
@@ -115,6 +116,7 @@ export default withStyles(styles)(
         personInfo: {
           ...this.state.personInfo,
           car: {
+            id: carData[2],
             carType: carData[1],
             licencePlate: carData[0]
           }
@@ -220,7 +222,7 @@ export default withStyles(styles)(
                 >
                   <option value="" />
                   {this.state.cars.map(auto => (
-                    <option value={auto.licencePlate + " " + auto.carType}>
+                    <option value={auto.licencePlate + " " + auto.carType + " " + auto.id}>
                       {auto.licencePlate + " " + auto.carType}
                     </option>
                   ))}
