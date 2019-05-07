@@ -60,6 +60,19 @@ export default withStyles(styles)(
       }
     }
 
+    componentWillReceiveProps(nextProps) {
+      this.getCars();
+      if (nextProps.personInfo !== null) {
+        const car = nextProps.personInfo.car;
+        const status = this.availabilityConverter(nextProps.personInfo.availability);
+        this.setState({
+          personInfo: nextProps.personInfo,
+          selectedCar: car.licencePlate + " " + car.carType + " " + car.id,
+          selectedStatus: status
+        });
+      }
+    }
+
     availabilityConverter(availability) {
       switch (availability) {
         case "AVAILABLE" :
@@ -106,19 +119,6 @@ export default withStyles(styles)(
           .then(() => {});
       } else {
         this.setState({ loggedIn: false, rows: null });
-      }
-    }
-
-    componentWillReceiveProps(nextProps) {
-      const car = nextProps.personInfo.car;
-      const status = this.availabilityConverter(nextProps.personInfo.availability);
-      this.getCars();
-      if (nextProps.personInfo !== null) {
-        this.setState({
-          personInfo: nextProps.personInfo,
-          selectedCar: car.licencePlate + " " + car.carType + " " + car.id,
-          selectedStatus: status
-        });
       }
     }
 
