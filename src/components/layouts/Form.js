@@ -98,6 +98,8 @@ export default withStyles(styles)(
     }
 
     handleChange = name => ({ target: { value } }) => {
+      console.log("@handleChange:name:", name, ":value:", value);
+
       this.setState({
         personInfo: {
           ...this.state.personInfo,
@@ -157,6 +159,7 @@ export default withStyles(styles)(
     };
 
     render() {
+      console.log("@render:", this.state.personInfo)
       const {
         personInfo: { name, availability, car, address, construction }
       } = this.state;
@@ -230,7 +233,7 @@ export default withStyles(styles)(
                   className={classes.input}
                   label="Construction"
                   value={construction}
-                  onChange={this.handleChange("constuction")}
+                  onChange={this.handleChange("construction")}
                   margin="normal"
                   variant="outlined"
                 />
