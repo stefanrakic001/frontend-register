@@ -231,7 +231,7 @@ export default withStyles(styles)(
               <Paper className={classes.paper}>
                 <TextField
                   className={classes.input}
-                  label="Construction Address"
+                  label="Address"
                   value={address}
                   onChange={this.handleChange("address")}
                   margin="normal"
