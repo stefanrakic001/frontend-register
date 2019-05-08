@@ -3,12 +3,7 @@ import Check from "@material-ui/icons/Check";
 import Close from "@material-ui/icons/Close";
 import BeachAccess from "@material-ui/icons/BeachAccess";
 import SentimentVeryDissatisfied from "@material-ui/icons/SentimentVeryDissatisfied";
-import {
-  TableCell,
-  TableRow,
-  IconButton,
-  Tooltip
-} from "@material-ui/core";
+import { TableCell, TableRow, IconButton, Tooltip } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ModifyModal from "./ModifyModal";
 import SalaryDialog from "./SalaryDialog";
@@ -41,9 +36,9 @@ export default class Row extends Component {
 
   decideSymbol(status) {
     switch (status) {
-      case "AVAILABLE" :
+      case "AVAILABLE":
         return <Check />;
-      case "NOTAVAILABLE" :
+      case "NOTAVAILABLE":
         return <Close />;
       case "HOLIDAY":
         return <BeachAccess />;
@@ -58,20 +53,23 @@ export default class Row extends Component {
       console.log("[ROW.INFO] PersonInfo name: " + personInfo.name);
       const available = <Check />;
       const notAvailable = <Close />;
-
+      const car = personInfo.car;
       return (
         <TableRow key={this.state.id}>
           <TableCell component="th" scope="row">
-              {personInfo.name}
+            {personInfo.name}
           </TableCell>
+          <TableCell>{this.decideSymbol(personInfo.availability)}</TableCell>
           <TableCell align="right">
-            {this.decideSymbol(personInfo.availability)}
+            {car === null ? " " : car.licencePlate + " " + car.carType}
           </TableCell>
-          <TableCell align="right">{personInfo.car.licencePlate + " " + personInfo.car.carType}</TableCell>
           <TableCell align="right">{personInfo.address}</TableCell>
           <TableCell align="right">{personInfo.construction}</TableCell>
           <TableCell align="right">
-            <SalaryDialog rowId={this.state.rowId} workerName={personInfo.name}/>
+            <SalaryDialog
+              rowId={this.state.rowId}
+              workerName={personInfo.name}
+            />
           </TableCell>
           <TableCell>
             <Tooltip title="Edit" placement="left">

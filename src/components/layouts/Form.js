@@ -49,8 +49,17 @@ export default withStyles(styles)(
 
     componentDidMount() {
       if (this.props.personInfo !== null) {
-        const car = this.props.personInfo.car;
-        const status = this.availabilityConverter(this.props.personInfo.availability);
+        const car =
+          this.props.personInfo.car === null
+            ? {
+                licencePlate: " ",
+                carType: " ",
+                id: " "
+              }
+            : this.props.personInfo.car;
+        const status = this.availabilityConverter(
+          this.props.personInfo.availability
+        );
         this.getCars();
         this.setState({
           personInfo: this.props.personInfo,
@@ -63,8 +72,18 @@ export default withStyles(styles)(
     componentWillReceiveProps(nextProps) {
       this.getCars();
       if (nextProps.personInfo !== null) {
-        const car = nextProps.personInfo.car;
-        const status = this.availabilityConverter(nextProps.personInfo.availability);
+        const car =
+          nextProps.personInfo.car === null
+            ? {
+                licencePlate: " ",
+                carType: " ",
+                id: " "
+              }
+            : nextProps.personInfo.car;
+
+        const status = this.availabilityConverter(
+          nextProps.personInfo.availability
+        );
         this.setState({
           personInfo: nextProps.personInfo,
           selectedCar: car.licencePlate + " " + car.carType + " " + car.id,
@@ -75,9 +94,9 @@ export default withStyles(styles)(
 
     availabilityConverter(availability) {
       switch (availability) {
-        case "AVAILABLE" :
+        case "AVAILABLE":
           return "Available";
-        case "NOTAVAILABLE" :
+        case "NOTAVAILABLE":
           return "Not Available";
         case "HOLIDAY":
           return "Holiday";
@@ -194,8 +213,12 @@ export default withStyles(styles)(
       } = this.state;
       const { classes } = this.props;
       const cars = this.state.cars;
-      console.log("[INFO.SELECTED-STATUS] is " + this.state.selectedStatus.toString());
-      console.log("[INFO.SELECTED-CAR] is " + this.state.selectedCar.toString());
+      console.log(
+        "[INFO.SELECTED-STATUS] is " + this.state.selectedStatus.toString()
+      );
+      console.log(
+        "[INFO.SELECTED-CAR] is " + this.state.selectedCar.toString()
+      );
 
       return (
         <form className={classes.root} noValidate>
@@ -245,7 +268,11 @@ export default withStyles(styles)(
                 >
                   <option value="" />
                   {this.state.cars.map(auto => (
-                    <option value={auto.licencePlate + " " + auto.carType + " " + auto.id}>
+                    <option
+                      value={
+                        auto.licencePlate + " " + auto.carType + " " + auto.id
+                      }
+                    >
                       {auto.licencePlate + " " + auto.carType}
                     </option>
                   ))}

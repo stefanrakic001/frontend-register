@@ -34,10 +34,10 @@ function SimpleTable(props) {
           <TableHead>
             <TableRow>
               <TableCell>Name </TableCell>
-              <TableCell align="right">Availability</TableCell>
-              <TableCell align="right">Car </TableCell>
-              <TableCell align="right">Construction Address </TableCell>
-              <TableCell align="right">Location</TableCell>
+              <TableCell align="center">Availability</TableCell>
+              <TableCell align="center">Car </TableCell>
+              <TableCell align="center">Construction Address </TableCell>
+              <TableCell align="center">Location</TableCell>
               <TableCell align="right">Payment</TableCell>
               <TableCell>Edit</TableCell>
               <TableCell>Delete</TableCell>
