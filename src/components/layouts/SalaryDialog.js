@@ -53,7 +53,8 @@ class FullScreenDialog extends React.Component {
         amount: 0,
         type: "",
         date: ""
-      }
+      },
+      selectedType: ""
     };
   }
 
@@ -78,6 +79,31 @@ class FullScreenDialog extends React.Component {
 
   handleClose = () => {
     this.setState({ open: false });
+  };
+
+  handleSubmit = () => {
+    this.setState({
+      money: {
+        amount: 0,
+        type: "",
+        date: ""
+      }
+    });
+  };
+
+  handleSalaryTypeChange = name => ({ target: { value } }) => {
+    let salaryType = "";
+    if (
+      name === "Normal" ? (salaryType = "NORMAL") : (salaryType = "INADVANCE")
+    )
+      this.setState({
+        money: {
+          ...this.state.money,
+          type: salaryType
+        },
+        selectedType: value
+      });
+    console.log("[SALARYTYPE.INFO] SalaryType is: " + this.state.money.type);
   };
 
   render() {
@@ -131,11 +157,12 @@ class FullScreenDialog extends React.Component {
                 <Select
                   className={classes.input}
                   native
-                  value={this.state.money.type}
-                  onChange={this.handleChange("type")}
+                  value={this.state.money.selectedType}
+                  onChange={this.handleSalaryTypeChange("type")}
                 >
+                  <option value="" />
                   <option value={"Normal"}>Normal</option>
-                  <option value={"Advance"}>Advance</option>
+                  <option value={"In Advance"}>Advance</option>
                 </Select>
                 <InputLabel
                   htmlFor="age-native-simple"
@@ -148,20 +175,24 @@ class FullScreenDialog extends React.Component {
                   id="date"
                   type="date"
                   defaultValue="2017-05-24"
+                  onChange={this.handleChange("date")}
                 />
 
                 <Button
                   variant="fab"
                   color="extended"
                   mini
-                  onClick={this.handleClose}
+                  onClick={this.handleSubmit}
                 >
                   <Add />
                 </Button>
               </form>
             </Toolbar>
           </AppBar>
-          <CustomPaginationActionsTable personInfo={this.state.personInfo} />
+          <CustomPaginationActionsTable
+            personInfo={this.state.personInfo}
+            money={this.state.money}
+          />
         </Dialog>
       </div>
     );

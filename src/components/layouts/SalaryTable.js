@@ -15,6 +15,7 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
+import SalaryRow from "./SalaryRow";
 
 const actionsStyles = theme => ({
   root: {
@@ -141,7 +142,8 @@ class CustomPaginationActionsTable extends React.Component {
     ].sort((a, b) => (a.calories < b.calories ? -1 : 1)),
     page: 0,
     rowsPerPage: 10,
-    personInfo: this.props.personInfo
+    personInfo: this.props.personInfo,
+    money: this.props.money
   };
 
   handleChangePage = (event, page) => {
@@ -158,7 +160,7 @@ class CustomPaginationActionsTable extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { rows, rowsPerPage, page, personInfo } = this.state;
+    const { rows, rowsPerPage, page, personInfo, money } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -166,6 +168,7 @@ class CustomPaginationActionsTable extends React.Component {
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
+            <SalaryRow money={money} />
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
