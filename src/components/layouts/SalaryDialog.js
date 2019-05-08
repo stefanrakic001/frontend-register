@@ -85,17 +85,17 @@ class FullScreenDialog extends React.Component {
         response.json().then(data => {
           if (response.status === 401) {
             sessionStorage.clear();
-            this.setState({ loggedIn: false, rows: null });
+            this.setState({ loggedIn: false, salaryRows: [] });
             console.log("Invalid token!");
           } else if (data.length === 0) {
-            this.setState({ salaryRows: null });
+            this.setState({ salaryRows: [] });
           } else {
             this.setState({ salaryRows: data });
           }
         })
       );
     } else {
-      this.setState({ loggedIn: false, salaryRows: null });
+      this.setState({ loggedIn: false, salaryRows: [] });
     }
   }
 

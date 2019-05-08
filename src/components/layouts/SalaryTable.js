@@ -15,8 +15,8 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
-import SalaryRow from "./SalaryRow";
 import {getUrl} from "../ApiUrl";
+import {TableHead} from "@material-ui/core";
 
 const actionsStyles = theme => ({
   root: {
@@ -168,7 +168,7 @@ class CustomPaginationActionsTable extends React.Component {
         headers
       };
 
-      const request = new Request(getUrl() + "/salary/" + id, options);
+      const request = new Request(getUrl() + "/salary/id=" + id, options);
       fetch(request).then(response =>
         response.json().then(data => {
           if (response.status === 401) {
@@ -198,23 +198,28 @@ class CustomPaginationActionsTable extends React.Component {
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Amount</TableCell>
+                <TableCell>Salary Type</TableCell>
+                <TableCell>Payment Date</TableCell>
+                <TableCell>Delete</TableCell>
+              </TableRow>
+            </TableHead>
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(row => (
                   <TableRow key={row.id}>
-                    <TableCell component="th" scope="row">
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.amount}</TableCell>
-                    <TableCell align="right">{row.type}</TableCell>
-                    <TableCell align="right">{row.paymentDate}</TableCell>
-                    <TableCell title="Delete" placement="left">
+                    <TableCell align="left">{row.amount}</TableCell>
+                    <TableCell align="left">{row.type}</TableCell>
+                    <TableCell align="left">{row.paymentDate}</TableCell>
+                    <TableCell title="Delete" align="left">
                       <Tooltip title="Delete" placement="left">
                         <IconButton
                           id={this.state.rowId}
                           onClick={() => {
-                            this.onRowDelete(personInfo.id);
+                            this.onRowDelete(row.salaryId);
                           }}
                           aria-label="Delete"
                           color="secondary"
