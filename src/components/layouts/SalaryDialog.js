@@ -16,6 +16,7 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import CustomPaginationActionsTable from "./SalaryTable";
+import {getUrl} from "../ApiUrl";
 
 const styles = theme => ({
   appBar: {
@@ -54,14 +55,48 @@ class FullScreenDialog extends React.Component {
         type: "",
         date: ""
       },
-      selectedType: ""
+      selectedType: "",
+      salaryRows: []
     };
+    this.getSalaryRowsFromBackEnd = this.getSalaryRowsFromBackEnd.bind(this);
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
     this.setState({
       workerName: nextProps.workerName
     });
+  }
+
+  getSalaryRowsFromBackEnd() {
+    if (sessionStorage.getItem("token") != null) {
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append(
+        "Authorization",
+        "Bearer " + sessionStorage.getItem("token")
+      );
+      const options = {
+        method: "GET",
+        headers
+      };
+
+      const request = new Request(getUrl() + "/salary/id=" + this.state.personInfo.id, options);
+      fetch(request).then(response =>
+        response.json().then(data => {
+          if (response.status === 401) {
+            sessionStorage.clear();
+            this.setState({ loggedIn: false, rows: null });
+            console.log("Invalid token!");
+          } else if (data.length === 0) {
+            this.setState({ salaryRows: null });
+          } else {
+            this.setState({ salaryRows: data });
+          }
+        })
+      );
+    } else {
+      this.setState({ loggedIn: false, salaryRows: null });
+    }
   }
 
   handleChange = name => ({ target: { value } }) => {
@@ -75,6 +110,7 @@ class FullScreenDialog extends React.Component {
 
   handleClickOpen = () => {
     this.setState({ open: true });
+    this.getSalaryRowsFromBackEnd();
   };
 
   handleClose = () => {
@@ -82,31 +118,62 @@ class FullScreenDialog extends React.Component {
   };
 
   handleSubmit = () => {
-    this.setState({
-      money: {
-        amount: 0,
-        type: "",
-        date: ""
-      }
-    });
+    if (sessionStorage.getItem("token") != null) {
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append(
+        "Authorization",
+        "Bearer " + sessionStorage.getItem("token")
+      );
+      const options = {
+        method: "POST",
+        headers,
+        body: JSON.stringify(this.state.money)
+      };
+
+      const request = new Request(getUrl() + "/salary/id=" + this.state.personInfo.id, options);
+      fetch(request).then(response =>
+        response.json().then(data => {
+          if (response.status === 401) {
+            sessionStorage.clear();
+            this.setState({ loggedIn: false, rows: null });
+            console.log("Invalid token!");
+          } else if (data.message === "SUCCESS!") {
+            this.getSalaryRowsFromBackEnd();
+            this.setState({
+              money: {
+                amount: 0,
+                type: "",
+                paymentDate: ""
+              },
+              selectedType: ""
+            });
+          } else {
+            console.log(data.message);
+          }
+        })
+      );
+    } else {
+      this.setState({ loggedIn: false, salaryRows: null });
+    }
   };
 
   handleSalaryTypeChange = name => ({ target: { value } }) => {
     let salaryType = "";
-    if (
-      name === "Normal" ? (salaryType = "NORMAL") : (salaryType = "INADVANCE")
-    )
-      this.setState({
-        money: {
-          ...this.state.money,
-          type: salaryType
-        },
-        selectedType: value
-      });
+    value === "Normal" ? (salaryType = "NORMAL") : (salaryType = "INADVANCE");
+    console.log(name);
+    this.setState({
+      money: {
+        ...this.state.money,
+        type: salaryType
+      },
+      selectedType: value
+    });
     console.log("[SALARYTYPE.INFO] SalaryType is: " + this.state.money.type);
   };
 
   render() {
+    console.log(this.state.money);
     const { classes } = this.props;
     return (
       <div>
@@ -142,7 +209,7 @@ class FullScreenDialog extends React.Component {
               <form className={classes.paper} noValidate>
                 <TextField
                   className={classes.input}
-                  value={this.state.amount}
+                  value={this.state.money.amount}
                   onChange={this.handleChange("amount")}
                   type="number"
                   margin="dense"
@@ -157,7 +224,7 @@ class FullScreenDialog extends React.Component {
                 <Select
                   className={classes.input}
                   native
-                  value={this.state.money.selectedType}
+                  value={this.state.selectedType}
                   onChange={this.handleSalaryTypeChange("type")}
                 >
                   <option value="" />
@@ -175,7 +242,7 @@ class FullScreenDialog extends React.Component {
                   id="date"
                   type="date"
                   defaultValue="2017-05-24"
-                  onChange={this.handleChange("date")}
+                  onChange={this.handleChange("paymentDate")}
                 />
 
                 <Button
@@ -191,7 +258,8 @@ class FullScreenDialog extends React.Component {
           </AppBar>
           <CustomPaginationActionsTable
             personInfo={this.state.personInfo}
-            money={this.state.money}
+            salaryRows={this.state.salaryRows}
+            getSalaryRowsFromBackend={this.getSalaryRowsFromBackEnd}
           />
         </Dialog>
       </div>

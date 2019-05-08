@@ -16,6 +16,7 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
 import SalaryRow from "./SalaryRow";
+import {getUrl} from "../ApiUrl";
 
 const actionsStyles = theme => ({
   root: {
@@ -124,27 +125,25 @@ const styles = theme => ({
 });
 
 class CustomPaginationActionsTable extends React.Component {
-  state = {
-    rows: [
-      createData("Cupcake", 305, 3.7),
-      createData("Donut", 452, 25.0),
-      createData("Eclair", 262, 16.0),
-      createData("Frozen yoghurt", 159, 6.0),
-      createData("Gingerbread", 356, 16.0),
-      createData("Honeycomb", 408, 3.2),
-      createData("Ice cream sandwich", 237, 9.0),
-      createData("Jelly Bean", 375, 0.0),
-      createData("KitKat", 518, 26.0),
-      createData("Lollipop", 392, 0.2),
-      createData("Marshmallow", 318, 0),
-      createData("Nougat", 360, 19.0),
-      createData("Oreo", 437, 18.0)
-    ].sort((a, b) => (a.calories < b.calories ? -1 : 1)),
-    page: 0,
-    rowsPerPage: 10,
-    personInfo: this.props.personInfo,
-    money: this.props.money
-  };
+  constructor(props){
+    super(props);
+    this.state = {
+      rows: [],
+      page: 0,
+      rowsPerPage: 10,
+      personInfo: this.props.personInfo,
+    };
+  }
+
+  componentDidMount() {
+    if (this.props.salaryRows != null) {
+      this.setState({rows: this.props.salaryRows, personInfo: this.props.personInfo});
+    }
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    this.setState({rows: nextProps.salaryRows, personInfo: nextProps.personInfo});
+  }
 
   handleChangePage = (event, page) => {
     this.setState({ page });
@@ -155,7 +154,38 @@ class CustomPaginationActionsTable extends React.Component {
   };
 
   onRowDelete(id) {
+    const {getSalaryRowsFromBackend} = this.props;
     console.log(id + " is deleted");
+    if (sessionStorage.getItem("token") != null) {
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append(
+        "Authorization",
+        "Bearer " + sessionStorage.getItem("token")
+      );
+      const options = {
+        method: "DELETE",
+        headers
+      };
+
+      const request = new Request(getUrl() + "/salary/" + id, options);
+      fetch(request).then(response =>
+        response.json().then(data => {
+          if (response.status === 401) {
+            sessionStorage.clear();
+            this.setState({loggedIn: false, rows: []});
+            console.log("Invalid token!");
+          } else if (data.message === "SUCCESS!") {
+            getSalaryRowsFromBackend();
+          } else {
+            this.setState({ loggedIn: false, rows: [] });
+          }
+          console.log(data.message);
+        })
+      );
+    } else {
+      this.setState({ loggedIn: false, rows: [] });
+    }
   }
 
   render() {
@@ -168,7 +198,6 @@ class CustomPaginationActionsTable extends React.Component {
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
-            <SalaryRow money={money} />
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -177,8 +206,9 @@ class CustomPaginationActionsTable extends React.Component {
                     <TableCell component="th" scope="row">
                       {row.name}
                     </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
+                    <TableCell align="right">{row.amount}</TableCell>
+                    <TableCell align="right">{row.type}</TableCell>
+                    <TableCell align="right">{row.paymentDate}</TableCell>
                     <TableCell title="Delete" placement="left">
                       <Tooltip title="Delete" placement="left">
                         <IconButton
