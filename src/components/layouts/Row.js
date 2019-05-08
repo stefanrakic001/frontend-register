@@ -35,15 +35,35 @@ export default class Row extends Component {
   }
 
   decideSymbol(status) {
+    const availabile = (
+      <Tooltip title="Available" placement="left">
+        <Check />
+      </Tooltip>
+    );
+    const notAvailable = (
+      <Tooltip title="Not Available" placement="left">
+        <Close />
+      </Tooltip>
+    );
+    const holiday = (
+      <Tooltip title="Holiday" placement="left">
+        <BeachAccess />
+      </Tooltip>
+    );
+    const sickLeave = (
+      <Tooltip title="Sickleave" placement="left">
+        <SentimentVeryDissatisfied />
+      </Tooltip>
+    );
     switch (status) {
       case "AVAILABLE":
-        return <Check />;
+        return availabile;
       case "NOTAVAILABLE":
-        return <Close />;
+        return notAvailable;
       case "HOLIDAY":
-        return <BeachAccess />;
+        return holiday;
       case "SICKLEAVE":
-        return <SentimentVeryDissatisfied />;
+        return sickLeave;
     }
   }
 
@@ -58,16 +78,18 @@ export default class Row extends Component {
             {personInfo.name}
           </TableCell>
           <TableCell>{this.decideSymbol(personInfo.availability)}</TableCell>
-          <TableCell align="right">
+          <TableCell>
             {car === null ? " " : car.licencePlate + " " + car.carType}
           </TableCell>
-          <TableCell align="right">{personInfo.address}</TableCell>
-          <TableCell align="right">{personInfo.construction}</TableCell>
-          <TableCell align="right">
-            <SalaryDialog
-              workerName={personInfo.name}
-              personInfo={personInfo}
-            />
+          <TableCell>{personInfo.address}</TableCell>
+          <TableCell>{personInfo.construction}</TableCell>
+          <TableCell>
+            <Tooltip title="Salary" placement="left">
+              <SalaryDialog
+                workerName={personInfo.name}
+                personInfo={personInfo}
+              />
+            </Tooltip>
           </TableCell>
           <TableCell>
             <Tooltip title="Edit" placement="left">
