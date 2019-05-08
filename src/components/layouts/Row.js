@@ -65,8 +65,8 @@ export default class Row extends Component {
           <TableCell align="right">{personInfo.construction}</TableCell>
           <TableCell align="right">
             <SalaryDialog
-              rowId={this.state.rowId}
               workerName={personInfo.name}
+              personInfo={personInfo}
             />
           </TableCell>
           <TableCell>

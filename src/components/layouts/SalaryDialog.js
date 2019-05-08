@@ -47,8 +47,8 @@ class FullScreenDialog extends React.Component {
     super(props);
     this.state = {
       open: false,
-      rowId: this.props.rowId,
       workerName: this.props.workerName,
+      personInfo: this.props.personInfo,
       money: {
         amount: 0,
         type: "",
@@ -134,7 +134,6 @@ class FullScreenDialog extends React.Component {
                   value={this.state.money.type}
                   onChange={this.handleChange("type")}
                 >
-                  <option value="" />
                   <option value={"Normal"}>Normal</option>
                   <option value={"Advance"}>Advance</option>
                 </Select>
@@ -162,7 +161,7 @@ class FullScreenDialog extends React.Component {
               </form>
             </Toolbar>
           </AppBar>
-          <CustomPaginationActionsTable />
+          <CustomPaginationActionsTable personInfo={this.state.personInfo} />
         </Dialog>
       </div>
     );

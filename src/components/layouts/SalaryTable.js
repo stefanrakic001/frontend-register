@@ -13,6 +13,8 @@ import FirstPageIcon from "@material-ui/icons/FirstPage";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const actionsStyles = theme => ({
   root: {
@@ -138,7 +140,8 @@ class CustomPaginationActionsTable extends React.Component {
       createData("Oreo", 437, 18.0)
     ].sort((a, b) => (a.calories < b.calories ? -1 : 1)),
     page: 0,
-    rowsPerPage: 5
+    rowsPerPage: 10,
+    personInfo: this.props.personInfo
   };
 
   handleChangePage = (event, page) => {
@@ -149,9 +152,13 @@ class CustomPaginationActionsTable extends React.Component {
     this.setState({ page: 0, rowsPerPage: event.target.value });
   };
 
+  onRowDelete(id) {
+    console.log(id + " is deleted");
+  }
+
   render() {
     const { classes } = this.props;
-    const { rows, rowsPerPage, page } = this.state;
+    const { rows, rowsPerPage, page, personInfo } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -169,6 +176,20 @@ class CustomPaginationActionsTable extends React.Component {
                     </TableCell>
                     <TableCell align="right">{row.calories}</TableCell>
                     <TableCell align="right">{row.fat}</TableCell>
+                    <TableCell title="Delete" placement="left">
+                      <Tooltip title="Delete" placement="left">
+                        <IconButton
+                          id={this.state.rowId}
+                          onClick={() => {
+                            this.onRowDelete(personInfo.id);
+                          }}
+                          aria-label="Delete"
+                          color="secondary"
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
                   </TableRow>
                 ))}
               {emptyRows > 0 && (
@@ -180,7 +201,7 @@ class CustomPaginationActionsTable extends React.Component {
             <TableFooter>
               <TableRow>
                 <TablePagination
-                  rowsPerPageOptions={[5, 10, 25]}
+                  rowsPerPageOptions={[10, 25]}
                   colSpan={3}
                   count={rows.length}
                   rowsPerPage={rowsPerPage}
