@@ -209,10 +209,9 @@ export default withStyles(styles)(
 
     render() {
       const {
-        personInfo: { name, availability, car, address, construction }
+        personInfo: { name, address, construction }
       } = this.state;
       const { classes } = this.props;
-      const cars = this.state.cars;
       console.log(
         "[INFO.SELECTED-STATUS] is " + this.state.selectedStatus.toString()
       );

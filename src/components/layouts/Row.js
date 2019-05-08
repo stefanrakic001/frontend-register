@@ -51,8 +51,6 @@ export default class Row extends Component {
     if (this.state.personInfo !== null) {
       const { personInfo } = this.state;
       console.log("[ROW.INFO] PersonInfo name: " + personInfo.name);
-      const available = <Check />;
-      const notAvailable = <Close />;
       const car = personInfo.car;
       return (
         <TableRow key={this.state.id}>
