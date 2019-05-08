@@ -9,6 +9,11 @@ import {
 } from "@material-ui/core";
 import { PersonAdd } from "@material-ui/icons";
 import Form from "./Form";
+import Slide from "@material-ui/core/Slide";
+
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
 
 export default class CreateNewModal extends Component {
   state = {
@@ -31,7 +36,7 @@ export default class CreateNewModal extends Component {
   }
 
   handleToggle = () => {
-    if(!this.state.loggedIn) {
+    if (!this.state.loggedIn) {
       alert("You have to log in fist!");
     } else {
       this.setState({
@@ -62,7 +67,11 @@ export default class CreateNewModal extends Component {
             <PersonAdd />
           </Button>
         </Tooltip>
-        <Dialog open={open} onClose={this.handleToggle}>
+        <Dialog
+          open={open}
+          onClose={this.handleToggle}
+          TransitionComponent={Transition}
+        >
           <DialogTitle id="form-dialog-title">Create new</DialogTitle>
           <DialogContent>
             <DialogContentText>Please fill out the form</DialogContentText>
