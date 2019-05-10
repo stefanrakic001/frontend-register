@@ -68,6 +68,7 @@ export default class Row extends Component {
   }
 
   render() {
+    const carNull = <Close />;
     if (this.state.personInfo !== null) {
       const { personInfo } = this.state;
       console.log("[ROW.INFO] PersonInfo name: " + personInfo.name);
@@ -79,7 +80,7 @@ export default class Row extends Component {
           </TableCell>
           <TableCell>{this.decideSymbol(personInfo.availability)}</TableCell>
           <TableCell>
-            {car === null ? " " : car.licencePlate + " " + car.carType}
+            {car === null ? carNull : car.licencePlate + " " + car.carType}
           </TableCell>
           <TableCell>{personInfo.address}</TableCell>
           <TableCell>{personInfo.construction}</TableCell>

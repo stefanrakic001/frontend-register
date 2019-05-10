@@ -16,7 +16,7 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import CustomPaginationActionsTable from "./SalaryTable";
-import {getUrl} from "../ApiUrl";
+import { getUrl } from "../ApiUrl";
 
 const styles = theme => ({
   appBar: {
@@ -26,11 +26,15 @@ const styles = theme => ({
   flex: {
     flex: 1
   },
+  paper: {
+    display: "flex",
+    alignItems: "center"
+  },
   input: {
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.25),
+    backgroundColor: fade(theme.palette.common.white, 0.5),
     "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.5)
+      backgroundColor: fade(theme.palette.common.white, 0.75)
     },
     marginRight: theme.spacing.unit * 4
   },
@@ -80,7 +84,10 @@ class FullScreenDialog extends React.Component {
         headers
       };
 
-      const request = new Request(getUrl() + "/salary/id=" + this.state.personInfo.id, options);
+      const request = new Request(
+        getUrl() + "/salary/id=" + this.state.personInfo.id,
+        options
+      );
       fetch(request).then(response =>
         response.json().then(data => {
           if (response.status === 401) {
@@ -131,7 +138,10 @@ class FullScreenDialog extends React.Component {
         body: JSON.stringify(this.state.money)
       };
 
-      const request = new Request(getUrl() + "/salary/id=" + this.state.personInfo.id, options);
+      const request = new Request(
+        getUrl() + "/salary/id=" + this.state.personInfo.id,
+        options
+      );
       fetch(request).then(response =>
         response.json().then(data => {
           if (response.status === 401) {

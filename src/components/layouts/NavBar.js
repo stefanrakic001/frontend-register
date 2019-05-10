@@ -14,12 +14,12 @@ export default ({ addToNavBar, handleLoggedIn, isLoggedIn }) => (
           flex: 1
         }}
       >
-        Employee Register
+        Employee Manager
       </Typography>
       <Grid item xs={10}>
-        <OpenLogin handleLoggedIn={handleLoggedIn}/>
+        <OpenLogin handleLoggedIn={handleLoggedIn} />
       </Grid>
-      <CreateNewModal onSubmit={addToNavBar} isLoggedIn={isLoggedIn}/>
+      <CreateNewModal onSubmit={addToNavBar} isLoggedIn={isLoggedIn} />
     </Toolbar>
   </AppBar>
 );

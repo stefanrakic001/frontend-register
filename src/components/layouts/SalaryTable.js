@@ -15,8 +15,8 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
-import {getUrl} from "../ApiUrl";
-import {TableHead} from "@material-ui/core";
+import { getUrl } from "../ApiUrl";
+import { TableHead } from "@material-ui/core";
 
 const actionsStyles = theme => ({
   root: {
@@ -105,12 +105,6 @@ const TablePaginationActionsWrapped = withStyles(actionsStyles, {
   withTheme: true
 })(TablePaginationActions);
 
-let counter = 0;
-function createData(name, calories, fat) {
-  counter += 1;
-  return { id: counter, name, calories, fat };
-}
-
 const styles = theme => ({
   root: {
     width: "100%",
@@ -125,24 +119,30 @@ const styles = theme => ({
 });
 
 class CustomPaginationActionsTable extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       rows: [],
       page: 0,
       rowsPerPage: 10,
-      personInfo: this.props.personInfo,
+      personInfo: this.props.personInfo
     };
   }
 
   componentDidMount() {
     if (this.props.salaryRows != null) {
-      this.setState({rows: this.props.salaryRows, personInfo: this.props.personInfo});
+      this.setState({
+        rows: this.props.salaryRows,
+        personInfo: this.props.personInfo
+      });
     }
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    this.setState({rows: nextProps.salaryRows, personInfo: nextProps.personInfo});
+    this.setState({
+      rows: nextProps.salaryRows,
+      personInfo: nextProps.personInfo
+    });
   }
 
   handleChangePage = (event, page) => {
@@ -154,7 +154,7 @@ class CustomPaginationActionsTable extends React.Component {
   };
 
   onRowDelete(id) {
-    const {getSalaryRowsFromBackend} = this.props;
+    const { getSalaryRowsFromBackend } = this.props;
     console.log(id + " is deleted");
     if (sessionStorage.getItem("token") != null) {
       const headers = new Headers();
@@ -173,7 +173,7 @@ class CustomPaginationActionsTable extends React.Component {
         response.json().then(data => {
           if (response.status === 401) {
             sessionStorage.clear();
-            this.setState({loggedIn: false, rows: []});
+            this.setState({ loggedIn: false, rows: [] });
             console.log("Invalid token!");
           } else if (data.message === "SUCCESS!") {
             getSalaryRowsFromBackend();
@@ -190,7 +190,7 @@ class CustomPaginationActionsTable extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { rows, rowsPerPage, page, personInfo, money } = this.state;
+    const { rows, rowsPerPage, page } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -211,7 +211,7 @@ class CustomPaginationActionsTable extends React.Component {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(row => (
                   <TableRow key={row.id}>
-                    <TableCell align="left">{row.amount}</TableCell>
+                    <TableCell align="left">{row.amount + "  €"}</TableCell>
                     <TableCell align="left">{row.type}</TableCell>
                     <TableCell align="left">{row.paymentDate}</TableCell>
                     <TableCell title="Delete" align="left">
