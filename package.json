@@ -1,16 +1,27 @@
 {
-  "name": "frontend-reg",
+  "name": "frontend-register",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^3.9.2",
+    "@material-ui/core": "^3.9.1",
     "@material-ui/icons": "^3.0.2",
-    "material-ui-icons": "^1.0.0-beta.36",
-    "react": "^16.8.3",
-    "react-bootstrap-table-next": "^3.0.0",
-    "react-dom": "^16.8.3",
-    "react-scripts": "2.1.5",
-    "typeface-roboto": "0.0.54"
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "@types/redux-form": "^8.1.1",
+    "axios": "^0.19.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "redux": "^4.0.0",
+    "redux-form": "^8.2.0",
+    "redux-thunk": "^2.3.0",
+    "typescript": "~3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -18,13 +29,62 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "devDependencies": {
+    "@types/classnames": "^2.2.7",
+    "@types/enzyme": "^3.9.0",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/fetch-mock": "^7.2.3",
+    "@types/jest": "^24.0.1",
+    "@types/material-ui": "^0.21.6",
+    "@types/node": "11.9.0",
+    "@types/react": "16.8.2",
+    "@types/react-dom": "16.8.0",
+    "@types/react-redux": "^7.1.7",
+    "@types/react-router": "^4.4.4",
+    "@types/react-router-dom": "^4.3.1",
+    "@types/redux-mock-store": "^1.0.0",
+    "auto-changelog": "^1.16.2",
+    "cpx": "^1.5.0",
+    "cross-env": "^5.2.0",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.9.1",
+    "enzyme-to-json": "^3.4.3",
+    "node-sass": "^4.11.0",
+    "redux-mock-store": "^1.5.3",
+    "source-map-explorer": "^2.2.1",
+    "ts-jest": "^23.10.0",
+    "tslint": "^5.14.0"
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/components/common/alert-dialog-component/alert-dialog-example.tsx",
+      "!src/redux/rootReducer.ts",
+      "!src/store/configureStore.js",
+      "!src/containers/app.tsx",
+      "!src/index.tsx",
+      "!src/types/**",
+      "!src/**/interfaces.tsx",
+      "!src/**/initialState.ts",
+      "!src/**/react-app-env.d.ts"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  }
 }
